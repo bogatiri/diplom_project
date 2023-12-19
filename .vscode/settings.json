@@ -1,0 +1,26 @@
+{
+	"python.analysis.autoImportCompletions": true,
+	"version": "0.2.0",
+	"configurations": [
+    {
+    	"name": "Python: Flask",
+    	"type": "python",
+    	"request": "launch",
+    	"module": "flask",
+    	"env": {
+        "FLASK_APP": "your_app_name.py",  // Замените на имя вашего файла приложения
+        "FLASK_ENV": "development",
+        "FLASK_RUN_PORT": 5000
+    	},
+    	"args": [
+        "run",
+        "--no-debugger",
+        "--no-reload"
+    	],
+    	"cwd": "${workspaceFolder}",
+    	"stopOnEntry": false,
+    	"pythonPath": "${config:python.pythonPath}",
+    	"jinja": true
+    }
+	]
+}

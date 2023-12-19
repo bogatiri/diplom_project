@@ -1,0 +1,12 @@
+version: "3.3"
+
+services:
+    postgres_diplom:
+        container_name: postgres_container_diplom
+        image: postgres:14.5-alpine
+        restart: always
+        env_file:
+            - environment/.env.postgres
+        ports:
+            - "5432:5432"
+

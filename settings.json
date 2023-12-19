@@ -1,0 +1,22 @@
+{
+  "code-runner.runInTerminal": true,
+  "editor.largeFileOptimizations": false,
+  "explorer.confirmDragAndDrop": false,
+  "files.autoSave": "afterDelay",
+  "code-runner.saveAllFilesBeforeRun": true,
+  "code-runner.saveFileBeforeRun": true,
+  "workbench.editorAssociations": {
+    "*.xlsx": "default"
+  },
+  "python.defaultInterpreterPath": "/usr/bin/python3.12",
+  "workbench.colorTheme": "AMOLED Black",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.renderWhitespace": "all",
+  "editor.insertSpaces": false,
+  "vscodeGoogleTranslate.preferredLanguage": "English",
+  "[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+  },
+  "git.autofetch": true
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style_main.css') }}"
+    />
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/main_script.js') }}"
+    ></script>
+    <title>Home Page</title>
+  </head>
+
+  <body class="{{ user_theme }}">
+    <nav class="navbar">
+      <div class="nav-search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" placeholder="Search..." />
+      </div>
+      <a href="#" class="logo">DiplomProject</a>
+      <ul class="nav-links">
+        <i class="fa-solid fa-xmark navCloseBtn"></i>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-house icon asdasd"></i>
+            <span class="text">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-house icon"></i>
+            <span class="text">one</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-house icon"></i>
+            <span class="text">two</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-house icon"></i>
+            <span class="text">three</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-house icon"></i>
+            <span class="text">four</span>
+          </a>
+        </li>
+      </ul>
+      <i class="fa-solid fa-magnifying-glass search-icon-1" id="searchIcon"></i>
+      <i class="fa-solid fa-bars navOpenBtn"></i>
+    </nav>
+    <nav class="sidebar close">
+      <header id="header">
+        <div class="image-text">
+          <span class="image">
+            <a href="#popup">
+              <img
+                src="{{ url_for('static', filename='img/logo.png') }}"
+                alt="Logo"
+              />
+            </a>
+          </span>
+          <div class="text header-text">
+            <span class="name">{{user_name}} {{user_surname}} </span>
+            <span class="proffesion">{{user_qualification}}</span>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right toggle"></i>
+      </header>
+      <div class="menu-bar">
+        <div class="menu">
+          <li class="search-box">
+            <i class="fa-solid fa-magnifying-glass icon"></i>
+            <input type="search" placeholder="Search..." />
+          </li>
+          <ul class="menu-links">
+            <li class="nav-link">
+              <a href="#">
+                <i class="fa-solid fa-house icon"></i>
+                <span class="text nav-text">All Boards</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class="fa-solid fa-briefcase icon"></i>
+                <span class="text nav-text">Overall Projects</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class="fa-solid fa-list-check icon"></i>
+                <span class="text nav-text">Active Projects</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class="fa-solid fa-box-archive icon"></i>
+                <span class="text nav-text">Archive Projects</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="bottom-content">
+          <li class="">
+            <a href="/logout">
+              <i class="fa-solid fa-arrow-right-from-bracket icon"></i>
+              <span class="text nav-text">Logout</span>
+            </a>
+          </li>
+          <form action="/save_theme" method="post">
+            <li class="mode">
+              <div class="moon-sun">
+                <i class="fa-regular fa-moon icon moon"></i>
+                <i class="fa-regular fa-sun icon sun"></i>
+              </div>
+              <span class="mode-text text">Dark Mode</span>
+              <div class="toggle-switch">
+                <span class="switch"></span>
+              </div>
+            </li>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <section class="home">
+      <div class="text">SOMETHING SHOULD BE HERE</div>
+    </section>
+    <div id="popup" class="popup">
+      <a href="#header" class="popup__area"></a>
+      <div class="popup__body">
+        <div class="popup__content">
+          <a href="#header" class="popup__close"
+            ><i class="fa-solid fa-xmark icon"></i
+          ></a>
+          <div class="popup__title">Switch Password</div>
+          <form action="/pass_switch" method="post">
+            <!-- Перенесен открывающий тег form -->
+            <div class="popup__text">
+              <div class="input-box">
+                <input
+                  type="password"
+                  class="pass"
+                  name="password-old"
+                  id="password-old"
+                  placeholder="Your Old Password"
+                />
+              </div>
+              <div class="input-box">
+                <input
+                  type="password"
+                  class="pass"
+                  name="password-new"
+                  id="password-new"
+                  placeholder="Your New Password"
+                />
+              </div>
+              <div class="input-box">
+                <input
+                  type="password"
+                  class="pass"
+                  name="password-new-repeated"
+                  id="password-new-repeated"
+                  placeholder="Repeat Your New Password"
+                />
+              </div>
+              <button name="action" class="btn btn-success" type="submit">
+                Switch Password
+              </button>
+            </div>
+          </form>
+          <!-- Перенесен закрывающий тег form -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
