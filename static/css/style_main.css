@@ -321,17 +321,18 @@ body.dark .navbar li a:hover .text {
   font-size: 16px;
   font-weight: 500;
   color: var(--text-color);
-  transition: var(--tran-03);
+  transition: var(--tran-04);
   white-space: nowrap;
   opacity: 1;
 }
 
 .sidebar.close .text {
-  opacity: 0;
+  /* opacity: 0; */
+  display: none;
 }
 
-.sidebar .image {
-  min-width: 60px;
+.sidebar .image-container {
+  width: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -363,9 +364,18 @@ body.dark .navbar li a:hover .text {
   position: relative;
 }
 
+
 .sidebar .image-text img {
+  border-radius: 50%;
+  align-items: center;
+  border: 2px solid var(--primary-color-light);
+  position: absolute;
+  left: 10px;
+  top: 0;
+  object-fit: cover;
   width: 40px;
-  border-radius: 6px;
+  height: 40px;
+  transition: var(--tran-05);
 }
 
 .sidebar header .image-text {
@@ -382,7 +392,7 @@ header .image-text .header-text {
   font-weight: 600;
 }
 
-.header-text .profession {
+.header-text .proffesion {
   margin-top: -2px;
 }
 
@@ -477,6 +487,7 @@ body.dark .sidebar li a:hover .text {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: var(--tran-05);
 }
 
 .menu-bar .mode {
@@ -622,6 +633,9 @@ body.dark .switch::before {
   padding: 30px;
   border-radius: 6px;
   position: relative;
+  border: 2px solid var(--primary-color-light);
+  flex-direction: column;
+  justify-content: center;
 }
 
 .popup__close {
@@ -633,28 +647,32 @@ body.dark .switch::before {
 
 .popup__title {
   font-size: 40;
-  margin-bottom: 1em;
+  margin: 1em;
 }
 
 .popup .input-box {
-  background-color: #eee;
-  border: none;
   border-radius: 8px;
   font-size: 13px;
-  width: 100%;
+  width: auto;
   margin: 8px 0;
-  align-items: center;
   display: flex;
 }
 
 .popup .input-box input {
-  background-color: #eee;
+  background-color: var(--primary-color-light);
+  color: var(--text-color);
   border: none;
   padding: 10px 15px;
   font-size: 13px;
   border-radius: 8px;
   width: 100%;
   outline: none;
+}
+
+.popup .input-box input.text {
+  overflow-wrap: break-word;
+  text-align: left;
+  word-wrap: break-word;
 }
 
 .popup button {
@@ -680,3 +698,60 @@ body.dark .switch::before {
 body.dark .popup button:hover {
   color: var(--text-color);
 }
+
+.home_1 {
+  position: fixed;
+  height: 100%;
+  top: 7%;
+  left: 250px;
+  right: 0;
+  width: calc(100%-250px);
+  background: var(--body-color);
+  transition: var(--tran-05);
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.home_1 .text {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 8px 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar.close ~ .home_1 {
+  left: 88px;
+  width: calc(100%-88px);
+}
+
+.home_1:target {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.file-upload-label {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  border-radius: 50%;
+  left: 70px;
+}
+
+.file-upload-label img {
+  width: 70px; /* Установите размер изображения по вашему усмотрению */
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color-light); /* Линия вокруг изображения, чтобы выглядело как кнопка */
+}
+
+/* Стили для инпута (скрытого) */
+#avatar {
+  display: none;
+}
+
+/*usdjfsadhfj

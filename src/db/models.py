@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, DateTime, Integer, JSON, ForeignKey, Table, BigInteger
+from typing import Text
+from sqlalchemy import Column, LargeBinary, String, DateTime, Integer, JSON, ForeignKey, Table, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 
@@ -16,19 +17,24 @@ class Users(Base):
     organization =Column(String)
     qualification = Column(String)
     theme = Column(String)
+    about = Column(String)
+    avatar = Column(String, default='avatars/logo.png')
     
     
-    def __init__(
-                self, name="", surname="", email="", password="", organization="", qualification="", theme="",
-        ):
-            self.name = name
-            self.surname = surname
-            self.email = email
-            self.password = password
-            self.organization = organization
-            self.qualification = qualification
-            self.theme = theme
-            
-    def __repr__(self):
-        return f'name: {self.name}, surname: {self.surname}, email: {self.email}, ' \
-            f'password: {self.password}, organization: {self.organization}, qualification: {self.qualification}, theme: {self.theme}, ' 
+def __init__(
+            self, name="", surname="", email="", password="", organization="", qualification="", theme="", about="", avatar=""
+    ):
+        self.name = name
+        self.surname = surname
+        self.email = email
+        self.password = password
+        self.organization = organization
+        self.qualification = qualification
+        self.theme = theme
+        self.about = about
+        self.avatar = avatar
+        
+def __repr__(self):
+    return f'name: {self.name}, surname: {self.surname}, email: {self.email}, ' \
+        f'password: {self.password}, organization: {self.organization}, qualification: {self.qualification}, ' \
+        f'theme: {self.theme}, about: {self.about}, avatar: {self.avatar} ' 

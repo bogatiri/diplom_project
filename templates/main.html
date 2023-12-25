@@ -64,17 +64,30 @@
     <nav class="sidebar close">
       <header id="header">
         <div class="image-text">
-          <span class="image">
-            <a href="#popup">
-              <img
-                src="{{ url_for('static', filename='img/logo.png') }}"
+          <span class="image-container">
+            {% if user_avatar %}
+             <a href="#popup">
+              <img 
+                id="preview-image"
+                class="rounded-image"
+                src="{{ url_for('static', filename=user_avatar) }}"
                 alt="Logo"
               />
-            </a>
+            </a> 
+          {% else %}
+          <a href="#popup">
+            <img
+              src="{{ url_for('static', filename='avatars/logo.png') }}"
+              alt="Logo"
+            />
+          </a> 
+          {% endif %}
           </span>
           <div class="text header-text">
-            <span class="name">{{user_name}} {{user_surname}} </span>
+            <a href="#popup">
+            <span class="name">{{user_name}} {{user_surname}} </span><br>
             <span class="proffesion">{{user_qualification}}</span>
+            </a>
           </div>
         </div>
         <i class="fa-solid fa-chevron-right toggle"></i>
@@ -93,7 +106,7 @@
               </a>
             </li>
             <li class="nav-link">
-              <a href="#">
+              <a href="#home_1">
                 <i class="fa-solid fa-briefcase icon"></i>
                 <span class="text nav-text">Overall Projects</span>
               </a>
@@ -134,8 +147,11 @@
         </div>
       </div>
     </nav>
-    <section class="home">
+    <section class="home" id="home">
       <div class="text">SOMETHING SHOULD BE HERE</div>
+    </section>
+    <section class="home_1" id="home_1">
+      <div class="text">govno</div>
     </section>
     <div id="popup" class="popup">
       <a href="#header" class="popup__area"></a>
@@ -144,9 +160,53 @@
           <a href="#header" class="popup__close"
             ><i class="fa-solid fa-xmark icon"></i
           ></a>
+          <div class="popup__title">Choose Your Avatar</div>
+          <form id="upload-form" action="/upload_avatar" method="post" enctype="multipart/form-data">
+            <label for="avatar" class="file-upload-label">
+                <img id="preview-image" src="{{ url_for('static', filename=user_avatar) }}" alt="Choose File">
+            </label>
+            <input type="file" name="avatar" id="avatar" accept="image/*" required style="display: none;">
+          </form>
+          <div class="popup__title">Settings</div>
+          <form action="/about_info" method="post">
+            <div class="popup__text">
+              <div class="input-box">
+                <input
+                  type="text"
+                  class="name"
+                  name="name-new"
+                  id="name-new"
+                  value="{{ user_name }}"
+                  placeholder="Your Name"
+                />
+              </div>
+              <div class="input-box">
+                <input
+                  type="text"
+                  class="surname"
+                  name="surname-new"
+                  id="surname-new"
+                  value="{{ user_surname }}"
+                  placeholder="Your Surname"
+                />
+              </div>
+              <div class="input-box">
+                <input
+                  type="text"
+                  class="text"
+                  name="about"
+                  id="about"
+                  value="{{ user_about }}"
+                  placeholder="About"
+                />
+              </div>
+              <button name="action" class="btn btn-success" type="submit">
+                Save
+              </button>
+            </div>
+          </form>
           <div class="popup__title">Switch Password</div>
           <form action="/pass_switch" method="post">
-            <!-- Перенесен открывающий тег form -->
             <div class="popup__text">
               <div class="input-box">
                 <input
@@ -180,7 +240,6 @@
               </button>
             </div>
           </form>
-          <!-- Перенесен закрывающий тег form -->
         </div>
       </div>
     </div>

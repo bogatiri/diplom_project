@@ -11,6 +11,7 @@ from src.db.models import Users
 from src.db.connect import Session, first_db_connect
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
+import os
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -18,9 +19,12 @@ bcrypt = Bcrypt(app)
 first_db_connect()
 db_session = Session()
 
+app.config['AVATARS_FOLDER'] = 'static/avatars'
+
 app.secret_key = "qeasdqwe"
 
-#----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+
 
 @app.route("/", methods=["POST", "GET"])  #!Регистрация
 def register_form():
@@ -70,13 +74,24 @@ def register_form():
     elif request.method == "GET":
         return render_template("login.html")
 
-#----------------------------------------------------------------------------------------------------
 
-def get_user_theme(user_email):
+# ----------------------------------------------------------------------------------------------------
+
+
+def get_user_data(user_email):  #!Получение данных пользователя
     user = db_session.query(Users).filter_by(email=user_email).first()
-    return user.theme, user.name, user.surname, user.qualification if user else None
+    return (
+        user.theme,
+        user.name,
+        user.surname,
+        user.qualification,
+        user.about,
+        user.avatar if user else None,
+    )
 
-#----------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------
+
 
 @app.route("/login_form", methods=["POST", "GET"])  #!Авторизация
 def login_form():
@@ -88,13 +103,19 @@ def login_form():
         user = db_session.query(Users).filter_by(email=email_log).first()
 
         if user and bcrypt.check_password_hash(user.password, password_log):
-            user_theme, user_name, user_surname, user_qualification = get_user_theme(
-                user.email
-            )
+            (
+                user_theme,
+                user_name,
+                user_surname,
+                user_qualification,
+                user_about,
+                user_avatar
+            ) = get_user_data(user.email)
             session["user_theme"] = user_theme  # Пример для использования сессии
             session["user_name"] = (user_name, user_surname)
             session["user_qualification"] = user_qualification
-
+            session["user_about"] = user_about
+            session["user_avatar"] =user_avatar
             response = make_response(
                 render_template(
                     "main.html",
@@ -102,9 +123,11 @@ def login_form():
                     user_name=user_name,
                     user_surname=user_surname,
                     user_qualification=user_qualification,
+                    user_about=user_about,
+                    user_avatar = user_avatar,
                 )
             )
-            response.set_cookie("user", user.email, max_age=3600, path="/")
+            response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
             return response
         else:
             # Неверные почта или пароль
@@ -112,13 +135,17 @@ def login_form():
     elif request.method == "GET":
         return render_template("login.html")
 
-#----------------------------------------------------------------------------------------------------
 
-def get_user_pass(user_email):
+# ----------------------------------------------------------------------------------------------------
+
+
+def get_user_pass(user_email):  #!Получение пароля пользователя
     user = db_session.query(Users).filter_by(email=user_email).first()
     return user.password if user else None
 
-#----------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------
+
 
 @app.route("/pass_switch", methods=["POST", "GET"])  #!Смена пароля
 def pass_switch():
@@ -145,10 +172,12 @@ def pass_switch():
                     user_name,
                     user_surname,
                     user_qualification,
-                ) = get_user_theme(user.email)
+                    user_about,
+                ) = get_user_data(user.email)
                 session["user_theme"] = user_theme
                 session["user_name"] = (user_name, user_surname)
                 session["user_qualification"] = user_qualification
+                session["user_about"] = user_about
 
                 response = make_response(
                     render_template(
@@ -157,9 +186,10 @@ def pass_switch():
                         user_name=user_name,
                         user_surname=user_surname,
                         user_qualification=user_qualification,
+                        user_about=user_about,
                     )
                 )
-                response.set_cookie("user", user.email, max_age=3600, path="/")
+                response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
 
                 return response
             else:
@@ -169,7 +199,121 @@ def pass_switch():
     else:
         return render_template("main.html")
 
+
+# ----------------------------------------------------------------------------------------------------
+
+
+@app.route("/about_info", methods=["POST", "GET"])  #!Смена данных пользователя
+def about_info():
+    if request.method == "POST":
+        name_new = request.form.get("name-new")
+        surname_new = request.form.get("surname-new")
+        about = request.form.get("about")
+        user_email = request.cookies.get("user")
+
+        user = db_session.query(Users).filter_by(email=user_email).first()
+
+        user.name = name_new
+        user.surname = surname_new
+        user.about = about
+
+        db_session.commit()
+
+        # Обновляем сессию
+        (
+            user_theme,
+            user_name,
+            user_surname,
+            user_qualification,
+            user_about,
+            user_avatar,
+        ) = get_user_data(user.email)
+        session["user_theme"] = user_theme
+        session["user_name"] = (user_name, user_surname)
+        session["user_qualification"] = user_qualification
+        session["user_about"] = user_about
+        session["user_avatar"] = user_avatar
+        response = make_response(
+            render_template(
+                "main.html",
+                user_theme = user_theme,
+                user_name = user_name,
+                user_surname = user_surname,
+                user_qualification = user_qualification,
+                user_about = user_about,
+                user_avatar = user_avatar,
+            )
+        )
+        response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
+        return response
+
+    else:
+        return render_template("main.html")
+
+
 #----------------------------------------------------------------------------------------------------
+
+
+@app.route('/upload_avatar', methods=['POST', 'GET'])
+def upload_avatar():
+    if 'avatar' not in request.files:
+        return redirect(request.url)
+
+    avatar = request.files['avatar']  # Чтение данных изображения
+    user_email = request.cookies.get("user")
+
+    if avatar.filename == '':
+        return redirect(request.url)
+
+    if avatar:
+        # Сохраняем аватар в директории AVATARS_FOLDER
+        avatar_path = os.path.join(app.config['AVATARS_FOLDER'], avatar.filename)
+        avatar.save(avatar_path)
+
+        user = db_session.query(Users).filter_by(email=user_email).first()
+
+        try:
+            user.avatar = 'avatars/' + avatar.filename
+            db_session.commit()
+        except Exception as e:
+            db_session.rollback()
+            print(f"Error: {e}")
+
+        (
+                user_theme,
+                user_name,
+                user_surname,
+                user_qualification,
+                user_about,
+                user_avatar,
+        ) = get_user_data(user.email)
+
+        session["user_theme"] = user_theme
+        session["user_name"] = (user_name, user_surname)
+        session["user_qualification"] = user_qualification
+        session["user_about"] = user_about
+        session["user_avatar"] = user_avatar
+
+        response = make_response(
+                render_template(
+                    "main.html",
+                    user_theme=user_theme,
+                    user_name=user_name,
+                    user_surname=user_surname,
+                    user_qualification=user_qualification,
+                    user_about=user_about,
+                    user_avatar=user_avatar,
+                )
+            )
+
+        response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
+        return response
+    else:
+        return render_template("main.html")
+
+
+# ----------------------------------------------------------------------------------------------------
+
 
 def save_theme_to_db(theme, user_email):  #!Функция сохранения темы
     try:
@@ -186,7 +330,9 @@ def save_theme_to_db(theme, user_email):  #!Функция сохранения 
         db_session.rollback()
         print(f"Ошибка при сохранении темы: {e}")
 
-#----------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------
+
 
 @app.route("/save_theme", methods=["POST"])  #!Сохранение темы
 def save_theme():
@@ -197,7 +343,9 @@ def save_theme():
 
     return "Theme saved successfully!"
 
-#----------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------
+
 
 @app.route("/logout")  #!Выход
 def logout():
@@ -211,7 +359,8 @@ def logout():
 
     return response
 
-#----------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(debug=True)
