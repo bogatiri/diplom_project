@@ -4,21 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style_main.css') }}"
-    />
-    <script
-      type="module"
-      src="{{ url_for('static', filename='js/main_script.js') }}"
-    ></script>
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style_main.css') }}"
+  />
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Home Page</title>
   </head>
 
-  <body class="{{ user_theme }}">
+  <body class="{{ user_data.user_theme }}">
     <nav class="navbar">
       <div class="nav-search-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -65,28 +58,28 @@
       <header id="header">
         <div class="image-text">
           <span class="image-container">
-            {% if user_avatar %}
-             <a href="#popup">
-              <img 
+            {% if user_data.user_avatar %}
+            <a href="#popup">
+              <img
                 id="preview-image"
                 class="rounded-image"
-                src="{{ url_for('static', filename=user_avatar) }}"
+                src="{{ url_for('static', filename=user_data.user_avatar) }}"
                 alt="Logo"
               />
-            </a> 
-          {% else %}
-          <a href="#popup">
-            <img
-              src="{{ url_for('static', filename='avatars/logo.png') }}"
-              alt="Logo"
-            />
-          </a> 
-          {% endif %}
+            </a>
+            {% else %}
+            <a href="#popup">
+              <img
+                src="{{ url_for('static', filename='avatars/logo.png') }}"
+                alt="Logo"
+              />
+            </a>
+            {% endif %}
           </span>
           <div class="text header-text">
             <a href="#popup">
-            <span class="name">{{user_name}} {{user_surname}} </span><br>
-            <span class="proffesion">{{user_qualification}}</span>
+              <span class="name">{{user_data.user_name}} {{user_data.user_surname}} </span><br />
+              <span class="proffesion">{{user_data.user_qualification}}</span>
             </a>
           </div>
         </div>
@@ -96,7 +89,7 @@
         <div class="menu">
           <li class="search-box">
             <i class="fa-solid fa-magnifying-glass icon"></i>
-            <input type="search" placeholder="Search..." />
+            <input type="text" placeholder="Search..." />
           </li>
           <ul class="menu-links">
             <li class="nav-link">
@@ -148,7 +141,32 @@
       </div>
     </nav>
     <section class="home" id="home">
-      <div class="text">SOMETHING SHOULD BE HERE</div>
+      <div class="home_container">
+        <div class="input-field" id="section-list">
+          {% if user_data %}
+          <textarea
+            type="text"
+            name="section-name"
+            id="section-name"
+            placeholder="Введите название секции"
+            data-section-id="1"
+          >
+{{ user_data.sections[0].name_of_section if user_data else '' }}</textarea
+          >
+          {% else %}
+          <p>Данные пользователя отсутствуют.</p>
+          {% endif %}
+          <i class="fa-solid fa-pen-fancy note-icon"></i>
+        </div>
+        <ul class="todoList" id="task-section-{{ section_id }}">
+          <!-- Здесь будут отображаться задачи -->
+        </ul>
+        <li class="listbtn">
+          <i class="fa-solid fa-plus addTask" ></i>
+          <button class="add-task" onclick="addTask()">Add Task</button>
+        </li>
+        <button class="add-task" onclick="addSection()">Добавить секцию</button>
+      </div>
     </section>
     <section class="home_1" id="home_1">
       <div class="text">govno</div>
@@ -161,11 +179,27 @@
             ><i class="fa-solid fa-xmark icon"></i
           ></a>
           <div class="popup__title">Choose Your Avatar</div>
-          <form id="upload-form" action="/upload_avatar" method="post" enctype="multipart/form-data">
+          <form
+            id="upload-form"
+            action="/upload_avatar"
+            method="post"
+            enctype="multipart/form-data"
+          >
             <label for="avatar" class="file-upload-label">
-                <img id="preview-image" src="{{ url_for('static', filename=user_avatar) }}" alt="Choose File">
+              <img
+                id="preview-image"
+                src="{{ url_for('static', filename=user_data.user_avatar) }}"
+                alt="Choose File"
+              />
             </label>
-            <input type="file" name="avatar" id="avatar" accept="image/*" required style="display: none;">
+            <input
+              type="file"
+              name="avatar"
+              id="avatar"
+              accept="image/*"
+              required
+              style="display: none"
+            />
           </form>
           <div class="popup__title">Settings</div>
           <form action="/about_info" method="post">
@@ -176,7 +210,7 @@
                   class="name"
                   name="name-new"
                   id="name-new"
-                  value="{{ user_name }}"
+                  value="{{ user_data.user_name }}"
                   placeholder="Your Name"
                 />
               </div>
@@ -186,7 +220,7 @@
                   class="surname"
                   name="surname-new"
                   id="surname-new"
-                  value="{{ user_surname }}"
+                  value="{{ user_data.user_surname }}"
                   placeholder="Your Surname"
                 />
               </div>
@@ -196,7 +230,7 @@
                   class="text"
                   name="about"
                   id="about"
-                  value="{{ user_about }}"
+                  value="{{ user_data.user_about }}"
                   placeholder="About"
                 />
               </div>
@@ -243,5 +277,12 @@
         </div>
       </div>
     </div>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <script defer type="module" src="{{ url_for('static', filename='js/main_script.js') }}"></script>
+  
   </body>
 </html>

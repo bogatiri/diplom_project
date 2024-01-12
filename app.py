@@ -6,8 +6,9 @@ from flask import (
     make_response,
     url_for,
     session,
+    jsonify
 )
-from src.db.models import Users
+from src.db.models import Users, Section, Tasks
 from src.db.connect import Session, first_db_connect
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
@@ -67,28 +68,59 @@ def register_form():
         try:
             db_session.add(new_user)
             db_session.commit()
-            return render_template("login.html")
+
+            existing_section = db_session.query(Section).filter_by(name_of_section="Default Section", user=new_user).first()
+
+            if not existing_section:
+                new_section = Section(name_of_section="Default Section", user=new_user)
+                db_session.add(new_section)
+                db_session.commit()
+            else:
+                new_section = existing_section
+
+            # Получите данные пользователя
+            user_data = get_user_data(new_user.email)
+
+            # Передайте данные пользователя в шаблон
+            return render_template("login.html", user_data=user_data)
+
         except IntegrityError:
             db_session.rollback()
             return "User already exists in the database!"
+
     elif request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html", user_data={})
 
 
 # ----------------------------------------------------------------------------------------------------
 
 
-def get_user_data(user_email):  #!Получение данных пользователя
-    user = db_session.query(Users).filter_by(email=user_email).first()
-    return (
-        user.theme,
-        user.name,
-        user.surname,
-        user.qualification,
-        user.about,
-        user.avatar if user else None,
-    )
 
+def get_user_data(email):
+    user = db_session.query(Users).filter_by(email=email).first()
+    if user:
+        user_data = {
+            "user_theme": user.theme,
+            "user_name": user.name,
+            "user_surname": user.surname,
+            "user_qualification": user.qualification,
+            "user_about": user.about,
+            "user_avatar": user.avatar,
+            "sections": []
+        }
+
+        # Если у пользователя есть связанные секции, добавьте их данные
+        if user.sections:
+            for section in user.sections:
+                section_data = {
+                    "name_of_section": section.name_of_section,
+                    "section_id": section.id
+                }
+                user_data["sections"].append(section_data)
+
+        return user_data
+
+    return {}
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -103,30 +135,12 @@ def login_form():
         user = db_session.query(Users).filter_by(email=email_log).first()
 
         if user and bcrypt.check_password_hash(user.password, password_log):
-            (
-                user_theme,
-                user_name,
-                user_surname,
-                user_qualification,
-                user_about,
-                user_avatar
-            ) = get_user_data(user.email)
-            session["user_theme"] = user_theme  # Пример для использования сессии
-            session["user_name"] = (user_name, user_surname)
-            session["user_qualification"] = user_qualification
-            session["user_about"] = user_about
-            session["user_avatar"] =user_avatar
-            response = make_response(
-                render_template(
-                    "main.html",
-                    user_theme=user_theme,
-                    user_name=user_name,
-                    user_surname=user_surname,
-                    user_qualification=user_qualification,
-                    user_about=user_about,
-                    user_avatar = user_avatar,
-                )
-            )
+                # Обновление сессии
+            user_data = get_user_data(user.email)
+            session.update(user_data)
+
+            # Создаем объект response и устанавливаем куки
+            response = make_response(render_template("main.html", user_data=user_data))
             response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
             return response
         else:
@@ -166,29 +180,11 @@ def pass_switch():
 
                 db_session.commit()
 
-                # Обновляем сессию с новой темой
-                (
-                    user_theme,
-                    user_name,
-                    user_surname,
-                    user_qualification,
-                    user_about,
-                ) = get_user_data(user.email)
-                session["user_theme"] = user_theme
-                session["user_name"] = (user_name, user_surname)
-                session["user_qualification"] = user_qualification
-                session["user_about"] = user_about
+                # Обновление сессии
+                user_data = get_user_data(user.email)
+                session.update(user_data)
 
-                response = make_response(
-                    render_template(
-                        "main.html",
-                        user_theme=user_theme,
-                        user_name=user_name,
-                        user_surname=user_surname,
-                        user_qualification=user_qualification,
-                        user_about=user_about,
-                    )
-                )
+                response = make_response(render_template("main.html", user_data=user_data))
                 response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
 
                 return response
@@ -197,7 +193,7 @@ def pass_switch():
         else:
             return "Неверный текущий пароль. Пароль не изменен."
     else:
-        return render_template("main.html")
+        return render_template("main.html", **user_data)
 
 
 # ----------------------------------------------------------------------------------------------------
@@ -219,31 +215,12 @@ def about_info():
 
         db_session.commit()
 
-        # Обновляем сессию
-        (
-            user_theme,
-            user_name,
-            user_surname,
-            user_qualification,
-            user_about,
-            user_avatar,
-        ) = get_user_data(user.email)
-        session["user_theme"] = user_theme
-        session["user_name"] = (user_name, user_surname)
-        session["user_qualification"] = user_qualification
-        session["user_about"] = user_about
-        session["user_avatar"] = user_avatar
-        response = make_response(
-            render_template(
-                "main.html",
-                user_theme = user_theme,
-                user_name = user_name,
-                user_surname = user_surname,
-                user_qualification = user_qualification,
-                user_about = user_about,
-                user_avatar = user_avatar,
-            )
-        )
+    # Обновление сессии
+        user_data = get_user_data(user.email)
+        session.update(user_data)
+
+        # Создаем объект response и устанавливаем куки
+        response = make_response(render_template("main.html", user_data=user_data))
         response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
         return response
 
@@ -254,7 +231,7 @@ def about_info():
 #----------------------------------------------------------------------------------------------------
 
 
-@app.route('/upload_avatar', methods=['POST', 'GET'])
+@app.route('/upload_avatar', methods=['POST', 'GET']) #!Функция загрузки аватара
 def upload_avatar():
     if 'avatar' not in request.files:
         return redirect(request.url)
@@ -279,33 +256,12 @@ def upload_avatar():
             db_session.rollback()
             print(f"Error: {e}")
 
-        (
-                user_theme,
-                user_name,
-                user_surname,
-                user_qualification,
-                user_about,
-                user_avatar,
-        ) = get_user_data(user.email)
+            # Обновление сессии
+        user_data = get_user_data(user.email)
+        session.update(user_data)
 
-        session["user_theme"] = user_theme
-        session["user_name"] = (user_name, user_surname)
-        session["user_qualification"] = user_qualification
-        session["user_about"] = user_about
-        session["user_avatar"] = user_avatar
-
-        response = make_response(
-                render_template(
-                    "main.html",
-                    user_theme=user_theme,
-                    user_name=user_name,
-                    user_surname=user_surname,
-                    user_qualification=user_qualification,
-                    user_about=user_about,
-                    user_avatar=user_avatar,
-                )
-            )
-
+        # Создаем объект response и устанавливаем куки
+        response = make_response(render_template("main.html", user_data=user_data))
         response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
         return response
     else:
@@ -313,7 +269,124 @@ def upload_avatar():
 
 
 # ----------------------------------------------------------------------------------------------------
+@app.route('/add_section', methods=['POST'])
+def add_section():
+    try:
+        section_name = request.form.get('section_name')
 
+        # Получаем пользователя из куков
+        user_email = request.cookies.get('user')
+        user = db_session.query(Users).filter_by(email=user_email).first()
+
+        if user:
+            # Проверяем, существует ли секция с указанным именем для данного пользователя
+            section = db_session.query(Section).filter_by(user=user, name_of_section=section_name).first()
+
+            # Если секция не существует, создаем новую секцию
+            if not section:
+                section = Section(name_of_section=section_name, user=user)
+                db_session.add(section)
+                db_session.commit()
+
+                return jsonify({"status": "success", "section_id": section.id})
+            else:
+                return jsonify({"status": "error", "message": "Section with this name already exists"})
+        else:
+            return jsonify({"status": "error", "message": "User not found"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/save_name_of_section', methods=['POST'])
+def save_name_of_section():
+    if request.method == 'POST':
+        name_of_section = request.form.get('text')
+        section_id = request.form.get('section_id')
+        user_email = request.cookies.get('user')
+        user = db_session.query(Users).filter_by(email=user_email).first()
+        if user:
+            section = db_session.query(Section).filter_by(user=user, id=section_id).first()
+            if section:
+                section.name_of_section = name_of_section
+                db_session.commit()
+
+                return 'Success', 200
+            else:
+                return 'Section not found', 404
+        else:
+            return 'User not found', 404
+
+
+
+@app.route('/add_task', methods=['POST'])
+def add_task():
+    try:
+        if request.method == 'POST':
+            task_description = request.form.get('task_description')
+            section_name = request.form.get('section_name')  # Получаем имя секции из запроса
+
+            # Найдите соответствующего пользователя по email
+            user_email = request.cookies.get('user')
+            user = db_session.query(Users).filter_by(email=user_email).first()
+
+            if user:
+                # Проверяем, существует ли секция с указанным именем для данного пользователя
+                section = db_session.query(Section).filter_by(user=user, name_of_section=section_name).first()
+
+                # Если секция не существует, создаем новую секцию
+                if not section:
+                    section = Section(name_of_section=section_name, user=user)
+                    db_session.add(section)
+                    db_session.commit()
+
+                # Создаем новую задачу и привязываем к существующей или некции
+            new_task = Tasks(task_description=task_description, section=section)
+
+
+            # Добавляем в базу данных
+            db_session.add(new_task)
+            db_session.commit()
+
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "User not found"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/get_sections')
+def get_sections():
+    try:
+        # Получаем пользователя из куков
+        user_email = request.cookies.get('user')
+        user = db_session.query(Users).filter_by(email=user_email).first()
+
+        if user:
+            # Получаем список секций для данного пользователя
+            sections = db_session.query(Section).filter_by(user=user).all()
+
+            # Преобразуем секции в формат JSON
+            sections_json = [{"id": section.id, "name_of_section": section.name_of_section} for section in sections]
+
+            return jsonify(sections_json)
+        else:
+            return jsonify({"status": "error", "message": "User not found"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+# ----------------------------------------------------------------------------------------------------
+# Маршрут для получения списка задач для указанной секции
+@app.route('/get_tasks')
+def get_tasks():
+    try:
+        section_id = request.args.get('section_id')
+
+        # Получаем задачи для указанной секции
+        tasks = db_session.query(Tasks).filter_by(section_id=section_id).all()
+
+        # Преобразуем задачи в формат JSON
+        tasks_json = [{"id": task.id, "task_description": task.task_description, "checked": task.checked} for task in tasks]
+
+        return jsonify(tasks_json)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
 
 def save_theme_to_db(theme, user_email):  #!Функция сохранения темы
     try:
