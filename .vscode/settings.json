@@ -22,5 +22,12 @@
     	"pythonPath": "${config:python.pythonPath}",
     	"jinja": true
     }
-	]
+	],
+	"docwriter.progress.trackFunctions": false,
+	"docwriter.progress.trackMethods": true,
+	"docwriter.progress.trackClasses": false,
+	"docwriter.progress.trackTypes": true,
+	"docwriter.language": "Russian",
+	"docwriter.hotkey.mac": "⌘ + .",
+	"docwriter.style": "Auto-detect"
 }

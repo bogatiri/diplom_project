@@ -1,3 +1,16 @@
+"""
+This file contains the main code for the To-Do list application.
+
+The code is structured as a series of functions and routes, each of which performs a specific task.
+
+The functions are designed to be modular and reusable, allowing for easy maintenance and modification of the application.
+
+The routes are defined using the Flask framework, and map requests to specific functions.
+
+The code uses a relational database to store user information, task lists, and other data.
+
+Overall, the code is designed to be user-friendly, with a clean and intuitive interface."""
+
 from flask import (
     Flask,
     request,
@@ -12,10 +25,13 @@ from src.db.models import Users, Section, Tasks
 from src.db.connect import Session, first_db_connect
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 import os
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
+
+CORS(app)
 
 first_db_connect()
 db_session = Session()
@@ -322,36 +338,32 @@ def add_task():
     try:
         if request.method == 'POST':
             task_description = request.form.get('task_description')
-            section_name = request.form.get('section_name')  # Получаем имя секции из запроса
+            section_id = request.form.get('section_id')  # Изменили имя параметра на 'section_id'
 
             # Найдите соответствующего пользователя по email
             user_email = request.cookies.get('user')
             user = db_session.query(Users).filter_by(email=user_email).first()
 
             if user:
-                # Проверяем, существует ли секция с указанным именем для данного пользователя
-                section = db_session.query(Section).filter_by(user=user, name_of_section=section_name).first()
+                # Проверяем, существует ли секция с указанным идентификатором для данного пользователя
+                section = db_session.query(Section).filter_by(user=user, id=section_id).first()
 
-                # Если секция не существует, создаем новую секцию
+                # Если секция не существует, можно выбрать действие по умолчанию
                 if not section:
-                    section = Section(name_of_section=section_name, user=user)
-                    db_session.add(section)
-                    db_session.commit()
+                    return jsonify({"status": "error", "message": "Section not found"})
 
-                # Создаем новую задачу и привязываем к существующей или некции
-            new_task = Tasks(task_description=task_description, section=section)
+                # Создаем новую задачу и привязываем к существующей секции
+                new_task = Tasks(task_description=task_description, section=section)
 
+                # Добавляем в базу данных
+                db_session.add(new_task)
+                db_session.commit()
 
-            # Добавляем в базу данных
-            db_session.add(new_task)
-            db_session.commit()
-
-            return jsonify({"status": "success"})
-        else:
-            return jsonify({"status": "error", "message": "User not found"})
+                return jsonify({"status": "success"})
+            else:
+                return jsonify({"status": "error", "message": "User not found"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
-
 @app.route('/get_sections')
 def get_sections():
     try:

@@ -122,7 +122,6 @@ function deleteTask(e) {                              // !Удаление за�
 
 
 function saveTaskToServer(taskDescription, sectionId) {
-  // Отправка данных на сервер
   fetch("/add_task", {
     method: "POST",
     body: new URLSearchParams({ task_description: taskDescription, section_id: sectionId }),
@@ -132,15 +131,14 @@ function saveTaskToServer(taskDescription, sectionId) {
   })
   .then(response => response.json())
   .then(data => {
-    /* console.log("Задача успешно добавлена:", data); */
-
-
+    console.log("Задача успешно добавлена:", data); 
     // Дополнительные действия при успешном добавлении задачи
   })
   .catch(error => {
     console.error("Ошибка при добавлении задачи:", error);
   });
 }
+
 
 addTaskButton.addEventListener("click", () => {
   // Создаем новый li-элемент
@@ -171,14 +169,8 @@ addTaskButton.addEventListener("click", () => {
     deleteTask(event);
   };
 
-  // Получаем текст из текстового поля
-  let taskDescription = textarea.value;
-
   // Получаем идентификатор секции
-  let sectionId = liTag.getAttribute("data-section-id");
-
-  // Сохраняем задачу в базе данных
-  saveTaskToServer(taskDescription, sectionId);
+  let sectionId = document.getElementById('section-name').getAttribute('data-section-id');
 
   // Добавляем элементы в li-элемент
   liTag.appendChild(checkbox);
@@ -188,7 +180,22 @@ addTaskButton.addEventListener("click", () => {
 
   // Добавляем li-элемент в todoList
   todoList.appendChild(liTag);
+
+  // Активируем текстовое поле при создании
+  textarea.focus();
+
+  // Устанавливаем обработчик события потери фокуса
+  textarea.addEventListener('blur', function () {
+    // Если поле пусто, удаляем li-элемент
+    if (textarea.value.trim() === '') {
+      liTag.remove();
+    } else {
+      // Если поле не пусто, сохраняем задачу в базу данных
+      saveTaskToServer(textarea.value, sectionId);
+    }
+  });
 });
+
 
 function addSection() {
   const sectionName = document.getElementById('section-name').value;
@@ -214,7 +221,7 @@ console.log('Функция addSection() вызвана');
 
 // Функция для добавления задачи
 
-function addTask() {
+/* function addTask() {
   const taskDescription = prompt('Введите описание задачи:');
 
   let sectionId = document.getElementById('section-name').dataset.sectionId;
@@ -238,8 +245,10 @@ function addTask() {
   })
   .catch(error => {
     console.error('Ошибка при добавлении задачи:', error);
+    console.log(taskDescription);
+    console.log(sectionId)
   });
-}
+} */
 
 // Функция для загрузки секций
 function loadSections() {
@@ -297,7 +306,7 @@ loadSections(); */
 $(document).ready(function() {
   $('#section-name').on('blur', function() {
     var newText = $(this).val();
-    var sectionId = $(this).data('user_data.section_id');
+    var sectionId = $(this).data('section-id');  
     console.log(sectionId)
     $.ajax({
       type: 'POST',
@@ -305,11 +314,12 @@ $(document).ready(function() {
       data: { text: newText, section_id: sectionId },
       success: function(response) {
         console.log('Изменения сохранены успешно');
-      },
+      }, 
       error: function(error) {
         console.error('Ошибка при сохранении изменений:', error);
       }
     });
   });
 });
+
 

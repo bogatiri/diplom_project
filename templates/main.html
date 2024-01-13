@@ -3,12 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sdfhsad</title>  
     <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/style_main.css') }}"
   />
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>Home Page</title>
   </head>
 
   <body class="{{ user_data.user_theme }}">
@@ -142,7 +141,7 @@
     </nav>
     <section class="home" id="home">
       <div class="home_container">
-        <div class="input-field" id="section-list">
+        <div class="input-field" id="section-list" data-section-id="1">
           {% if user_data %}
           <textarea
             type="text"
@@ -150,9 +149,7 @@
             id="section-name"
             placeholder="Введите название секции"
             data-section-id="1"
-          >
-{{ user_data.sections[0].name_of_section if user_data else '' }}</textarea
-          >
+          >{{ user_data.sections[0].name_of_section if user_data and user_data.sections else '' }}</textarea>
           {% else %}
           <p>Данные пользователя отсутствуют.</p>
           {% endif %}
@@ -163,9 +160,9 @@
         </ul>
         <li class="listbtn">
           <i class="fa-solid fa-plus addTask" ></i>
-          <button class="add-task" onclick="addTask()">Add Task</button>
+          <button class="add-task" >Add Task</button>
         </li>
-        <button class="add-task" onclick="addSection()">Добавить секцию</button>
+        <!--<button class="add-task" onclick="addSection()">Добавить секцию</button> -->
       </div>
     </section>
     <section class="home_1" id="home_1">
@@ -281,8 +278,7 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   />
-
   <script defer type="module" src="{{ url_for('static', filename='js/main_script.js') }}"></script>
-  
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   </body>
 </html>
