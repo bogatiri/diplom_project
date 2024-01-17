@@ -16,12 +16,12 @@ const body = document.querySelector("body"),
   modeText = body.querySelector(".mode-text");
 
 
+let taskId;
 
-
-document.addEventListener('DOMContentLoaded', function () {
+/* document.addEventListener('DOMContentLoaded', function () {
   // Вызовите функцию загрузки секций после полной загрузки DOM
   loadSections();
-});
+}); */
                                                     // !При нажатии на кнопку поиска
 searchIcon.addEventListener("click", () => {
   navbar.classList.toggle("openSearch");
@@ -100,7 +100,7 @@ modeSwitch.addEventListener("click", () => {
   saveThemeToServer(currentTheme);
 });
 
-document.getElementById("avatar").addEventListener("change", function (e) {
+document.getElementById("avatar").addEventListener("change", function () {
   document.getElementById("upload-form").submit();
 });
 
@@ -115,13 +115,32 @@ function saveThemeToServer(theme) {
 }
 
 
-function deleteTask(e) {                              // !Удаление задачи
+
+function deleteTask(e) {
   const liTag = e.currentTarget.parentElement;
+  const taskId = liTag.getAttribute("data-task-id");
   liTag.remove();
+  deleteTaskFromServer(taskId); // Функция для удаления задачи из базы данных
 }
 
+function deleteTaskFromServer(taskId) {
+  fetch("/delete_task", {
+    method: "POST",
+    body: new URLSearchParams({ task_id: taskId }),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Задача успешно удалена:", data);
+  })
+  .catch(error => {
+    console.error("Ошибка при удалении задачи:", error);
+  });
+}
 
-function saveTaskToServer(taskDescription, sectionId) {
+function saveTaskToServer(taskDescription, sectionId, liTag) {
   fetch("/add_task", {
     method: "POST",
     body: new URLSearchParams({ task_description: taskDescription, section_id: sectionId }),
@@ -131,20 +150,26 @@ function saveTaskToServer(taskDescription, sectionId) {
   })
   .then(response => response.json())
   .then(data => {
-    console.log("Задача успешно добавлена:", data); 
-    // Дополнительные действия при успешном добавлении задачи
+    taskId = data.task_id;
+    if (data.status === "success") {
+      console.log("Задача успешно добавлена:", data.task_id);
+      liTag.setAttribute("data-task-id", taskId);
+      // Вызываем функцию добавления задачи на форму с полученным идентификатором
+      /* addTaskToForm(taskDescription, sectionId, data.task_id); */
+    } else {
+      console.error("Ошибка при добавлении задачи:", data.message);
+    }
   })
   .catch(error => {
     console.error("Ошибка при добавлении задачи:", error);
   });
 }
 
-
 addTaskButton.addEventListener("click", () => {
   // Создаем новый li-элемент
   let liTag = document.createElement("li");
   liTag.classList.add("list");
-
+  
   // Создаем новый чекбокс
   let checkbox = document.createElement("input");
   checkbox.type = "checkbox";
@@ -168,7 +193,7 @@ addTaskButton.addEventListener("click", () => {
   trashIcon.onclick = function (event) {
     deleteTask(event);
   };
-
+  
   // Получаем идентификатор секции
   let sectionId = document.getElementById('section-name').getAttribute('data-section-id');
 
@@ -180,24 +205,163 @@ addTaskButton.addEventListener("click", () => {
 
   // Добавляем li-элемент в todoList
   todoList.appendChild(liTag);
-
+  let taskDescription = textarea.value;
+  console.log(sectionId);
+  saveTaskToServer(taskDescription, sectionId, liTag);
+/*   liTag.setAttribute("data-task-id", taskId); // Устанавливаем атрибут data-task-id для li-элемента */
   // Активируем текстовое поле при создании
   textarea.focus();
 
   // Устанавливаем обработчик события потери фокуса
   textarea.addEventListener('blur', function () {
+    let taskDescription = textarea.value;
+     liTag.addEventListener("click", function() {
+      taskId = this.getAttribute("data-task-id");
+    });
     // Если поле пусто, удаляем li-элемент
-    if (textarea.value.trim() === '') {
-      liTag.remove();
+    if (taskDescription.trim() === '') {
+      liTag.remove(); 
+      deleteTaskFromServer(taskId); // функция для удаления задачи из базы
     } else {
       // Если поле не пусто, сохраняем задачу в базу данных
-      saveTaskToServer(textarea.value, sectionId);
+     /*  saveTaskToServer(taskDescription, sectionId, liTag); */
+      updateTaskOnServer(taskId, taskDescription)
+      console.log('Задача успешно изменена:', taskDescription);
+      console.log('id задачи -', taskId);
+      console.log(liTag.getAttribute("data-task-id"));
     }
+  }); 
+});
+
+function updateTaskOnServer(taskId, taskDescription, liTag) {
+  fetch("/update_task", {
+    method: "POST",
+    body: new URLSearchParams({ task_id: taskId, task_description: taskDescription }),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === "success") {
+      console.log("Задача успешно обновлена:", data.task_id);
+      console.log(data.task_description);
+    } else {
+      console.error("Ошибка при обновлении задачи:", data.message);
+    }
+  })
+  .catch(error => {
+    console.error("Ошибка при обновлении задачи:", error);
+  });
+}
+
+
+// Функция для загрузки всех секций пользователя
+function loadSections() {
+  // Отправка запроса на сервер для получения секций
+  fetch('/get_sections')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Секции успешно загружены:', data);
+    
+    // Загрузить задачи для каждой секции
+    data.forEach(section => {
+      loadTasks(section.id);
+      console.log(section.id)
+    });
+  })
+  .catch(error => {
+    console.error('Ошибка при загрузке секций:', error);
+  });
+}
+
+// Вызываем функцию загрузки секций при загрузке страницы
+window.onload = loadSections;
+
+
+// Функция для загрузки задач для указанной секции
+function loadTasks(sectionId) {
+  // Проверяем, существует ли элемент на странице
+  var taskSection = document.getElementById(`section-id-${sectionId}`);
+  //console.log(taskSection);
+  //console.log(sectionId);
+  if (!taskSection) {
+      console.error(`Element with id "section_id-${sectionId}" not found`);
+      return;
+  }
+
+  // Отправляем запрос на сервер
+  fetch(`/get_tasks?sectionId=${sectionId}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log('Tasks successfully loaded:', data);
+
+      // Очищаем содержимое элемента
+      taskSection.innerHTML = '';
+
+      // Добавляем задачи в элемент
+      data.forEach(task => {
+          // Создаем новый li-элемент
+          let liTag = document.createElement("li");
+          liTag.classList.add("list");
+
+          // Создаем новый чекбокс
+          let checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+
+          // Создаем блок для ввода задачи
+          let inputTask = document.createElement("div");
+          inputTask.classList.add("input-task");
+
+          // Создаем текстовое поле для задачи
+          let textarea = document.createElement("textarea");
+          textarea.id = "textarea-task";
+          textarea.classList.add("written-task");
+          textarea.value = task.description; // Задаем описание задачи
+
+          // Создаем иконку корзины для удаления задачи
+          let trashIcon = document.createElement("i");
+          trashIcon.classList.add("fa-solid", "fa-trash");
+          trashIcon.onclick = function (event) {
+            deleteTask(event);
+          };
+
+          // Добавляем элементы в li-элемент
+          liTag.appendChild(checkbox);
+          liTag.appendChild(inputTask);
+          inputTask.appendChild(textarea);
+          liTag.appendChild(trashIcon);
+
+          // Добавляем li-элемент в taskSection
+          taskSection.appendChild(liTag);
+      });
+    })
+    .catch(error => {
+      console.error('Error loading tasks:', error);
+    });
+}
+
+
+$(document).ready(function() {
+  $('#section-name').on('blur', function() {
+    var newText = $(this).val();
+    var sectionId = $(this).data('section-id');  
+    console.log(sectionId)
+    $.ajax({
+      type: 'POST',
+      url: '/save_name_of_section',
+      data: { text: newText, section_id: sectionId },
+      success: function() { // Remove the unused 'response' parameter
+        console.log('Изменения сохранены успешно');
+      }, 
+      error: function(error) {
+        console.error('Ошибка при сохранении изменений:', error);
+      }
+    });
   });
 });
 
-
-function addSection() {
+/* function addSection() {
   const sectionName = document.getElementById('section-name').value;
   fetch('/add_section', {
     method: 'POST',
@@ -217,109 +381,4 @@ console.log('Функция addSection() вызвана');
     console.error('Ошибка при добавлении секции:', error);
     console.log(sectionName)
   });
-}
-
-// Функция для добавления задачи
-
-/* function addTask() {
-  const taskDescription = prompt('Введите описание задачи:');
-
-  let sectionId = document.getElementById('section-name').dataset.sectionId;
-
-  fetch('/add_task', {
-    method: 'POST',
-    body: new URLSearchParams({
-      task_description: taskDescription,
-      section_id: sectionId,
-    }),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Задача успешно добавлена:', data);
-    console.log('sectionId');
-    console.log(taskDescription);
-    loadTasks(sectionId);
-  })
-  .catch(error => {
-    console.error('Ошибка при добавлении задачи:', error);
-    console.log(taskDescription);
-    console.log(sectionId)
-  });
 } */
-
-// Функция для загрузки секций
-function loadSections() {
-  fetch('/get_sections')
-  .then(response => response.json())
-  .then(data => {
-    console.log('Секции успешно загружены:', data);
-
-    // Отобразить секции в соответствующем списке
-    const sectionsList = document.getElementById('sections-list');
-    //sectionsList.innerHTML = '';//!!!!!!!!!!!!!!!
-//!!!!!!!!!!!!!!!
-/*     data.forEach(section => {//!!!!!!!!!!!!!!!
-      const li = document.createElement('li');//!!!!!!!!!!!!!!!
-      li.textContent = section.name_of_section;  //!!!!!!!!!!!!!!!
-      sectionsList.appendChild(li);//!!!!!!!!!!!!!!!
-    }); *///!!!!!!!!!!!!!!!
-  })
-  .catch(error => {
-    console.error('Ошибка при загрузке секций:', error);
-  });
-}
-
-
-
-// Функция для загрузки задач для указанной секции
-function loadTasks(sectionId) {
-  // Отправка запроса на сервер для получения задач
-  fetch(`/get_tasks?section_id=${sectionId}`)
-  .then(response => response.json())
-  .then(data => {
-    console.log('Задачи успешно загружены:', data);
-
-    // Отобразить задачи в соответствующем списке
-    const tasksList = document.getElementById(`task-section-${sectionId}`);
-    tasksList.innerHTML = '';
-
-    data.forEach(task => {
-      const li = document.createElement('li');
-      li.textContent = task.task_description;
-      tasksList.appendChild(li);
-    });
-  })
-  .catch(error => {
-    console.error('Ошибка при загрузке задач:', error);
-  });
-}
-
-/* // Вызываем функцию загрузки секций при загрузке страницы
-loadSections(); */
-
-
-
-
-$(document).ready(function() {
-  $('#section-name').on('blur', function() {
-    var newText = $(this).val();
-    var sectionId = $(this).data('section-id');  
-    console.log(sectionId)
-    $.ajax({
-      type: 'POST',
-      url: '/save_name_of_section',
-      data: { text: newText, section_id: sectionId },
-      success: function(response) {
-        console.log('Изменения сохранены успешно');
-      }, 
-      error: function(error) {
-        console.error('Ошибка при сохранении изменений:', error);
-      }
-    });
-  });
-});
-
-

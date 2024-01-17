@@ -332,38 +332,85 @@ def save_name_of_section():
             return 'User not found', 404
 
 
-
 @app.route('/add_task', methods=['POST'])
 def add_task():
     try:
         if request.method == 'POST':
             task_description = request.form.get('task_description')
-            section_id = request.form.get('section_id')  # Изменили имя параметра на 'section_id'
 
-            # Найдите соответствующего пользователя по email
             user_email = request.cookies.get('user')
             user = db_session.query(Users).filter_by(email=user_email).first()
 
             if user:
-                # Проверяем, существует ли секция с указанным идентификатором для данного пользователя
-                section = db_session.query(Section).filter_by(user=user, id=section_id).first()
+                section = db_session.query(Section).filter_by(user=user).first()
 
-                # Если секция не существует, можно выбрать действие по умолчанию
                 if not section:
                     return jsonify({"status": "error", "message": "Section not found"})
 
-                # Создаем новую задачу и привязываем к существующей секции
                 new_task = Tasks(task_description=task_description, section=section)
-
-                # Добавляем в базу данных
                 db_session.add(new_task)
                 db_session.commit()
 
-                return jsonify({"status": "success"})
+                # Возвращаем успешный статус и идентификатор задачи
+                return jsonify({"status": "success", "task_id": new_task.id})
             else:
                 return jsonify({"status": "error", "message": "User not found"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
+
+
+@app.route('/update_task', methods=['POST'])
+def update_task():
+    try:
+        if request.method == 'POST':
+            task_id = request.form.get('task_id')
+            task_description = request.form.get('task_description')
+
+            user_email = request.cookies.get('user')
+            user = db_session.query(Users).filter_by(email=user_email).first()
+
+            if user:
+                task = db_session.query(Tasks).filter_by(id=task_id).first()
+
+                if not task:
+                    return jsonify({"status": "error", "message": "Task not found"})
+
+                task.task_description = task_description
+                db_session.commit()
+
+                # Возвращаем успешный статус и идентификатор задачи
+                return jsonify({"status": "success", "task_id": task.id, "task_description": task.task_description})
+            else:
+                return jsonify({"status": "error", "message": "User not found"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+
+@app.route('/delete_task', methods=['POST'])
+def delete_task():
+    try:
+        if request.method == 'POST':
+            task_id = request.form.get('task_id')
+
+            user_email = request.cookies.get('user')
+            user = db_session.query(Users).filter_by(email=user_email).first()
+
+            if user:
+                task = db_session.query(Tasks).filter_by(id=task_id).first()
+
+                if not task:
+                    return jsonify({"status": "error", "message": "Task not found"})
+
+                db_session.delete(task)
+                db_session.commit()
+
+                # Возвращаем успешный статус
+                return jsonify({"status": "success", "message": "Task deleted successfully"})
+            else:
+                return jsonify({"status": "error", "message": "User not found"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
 @app.route('/get_sections')
 def get_sections():
     try:
