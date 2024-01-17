@@ -435,15 +435,20 @@ def get_sections():
 @app.route('/get_tasks')
 def get_tasks():
     try:
-        section_id = request.args.get('section_id')
+        section_id = request.args.get('sectionId')  # Исправлено на 'sectionId'
 
         # Получаем задачи для указанной секции
         tasks = db_session.query(Tasks).filter_by(section_id=section_id).all()
 
         # Преобразуем задачи в формат JSON
-        tasks_json = [{"id": task.id, "task_description": task.task_description, "checked": task.checked} for task in tasks]
-
-        return jsonify(tasks_json)
+        tasks_json = [
+            {
+                "id": task.id,
+                "task_description": task.task_description if task.task_description else '',  # Добавьте проверку на None
+                "checked": task.checked
+            } for task in tasks
+        ]
+        return jsonify({"tasks": tasks_json})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 

@@ -18,10 +18,10 @@ const body = document.querySelector("body"),
 
 let taskId;
 
-/* document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
   // Вызовите функцию загрузки секций после полной загрузки DOM
   loadSections();
-}); */
+});
                                                     // !При нажатии на кнопку поиска
 searchIcon.addEventListener("click", () => {
   navbar.classList.toggle("openSearch");
@@ -116,12 +116,32 @@ function saveThemeToServer(theme) {
 
 
 
-function deleteTask(e) {
+function findClosestLi(element) {
+  while (element && element.tagName !== 'LI') {
+    element = element.parentElement;
+  }
+  return element;
+}
+
+function deleteTask(taskId) {
+  const liTag = findClosestLi(document.querySelector(`[data-task-id="${taskId}"]`));
+  console.log("liTag:", liTag);
+  if (liTag) {
+    console.log("Deleting task with ID:", taskId);
+    liTag.remove();
+    deleteTaskFromServer(taskId);
+  } else {
+    deleteTaskNow(e);
+    console.log("Element not found for task ID:", taskId);
+  }
+}
+function deleteTaskNow(e) {
   const liTag = e.currentTarget.parentElement;
   const taskId = liTag.getAttribute("data-task-id");
   liTag.remove();
   deleteTaskFromServer(taskId); // Функция для удаления задачи из базы данных
 }
+
 
 function deleteTaskFromServer(taskId) {
   fetch("/delete_task", {
@@ -152,10 +172,14 @@ function saveTaskToServer(taskDescription, sectionId, liTag) {
   .then(data => {
     taskId = data.task_id;
     if (data.status === "success") {
-      console.log("Задача успешно добавлена:", data.task_id);
-      liTag.setAttribute("data-task-id", taskId);
+      console.log("Задача успешно добавлена:", taskId);
+      // Убедимся, что taskId не равен null или undefined, прежде чем устанавливать атрибут
+      if (taskId != null) {
+        liTag.setAttribute("data-task-id", taskId);
+      }
+      //taskId = liTag.getAttribute("data-task-id");
       // Вызываем функцию добавления задачи на форму с полученным идентификатором
-      /* addTaskToForm(taskDescription, sectionId, data.task_id); */
+      /* addTaskToForm(taskDescription, sectionId, taskId); */
     } else {
       console.error("Ошибка при добавлении задачи:", data.message);
     }
@@ -166,70 +190,80 @@ function saveTaskToServer(taskDescription, sectionId, liTag) {
 }
 
 addTaskButton.addEventListener("click", () => {
-  // Создаем новый li-элемент
   let liTag = document.createElement("li");
   liTag.classList.add("list");
-  
-  // Создаем новый чекбокс
   let checkbox = document.createElement("input");
   checkbox.type = "checkbox";
+  checkbox.id = `checkbox-task-${taskId}`;
 
-  // Создаем блок для ввода задачи
   let inputTask = document.createElement("div");
   inputTask.classList.add("input-task");
-
-  // Создаем текстовое поле для задачи
+  
   let textarea = document.createElement("textarea");
-  textarea.id = "textarea-task";
   textarea.classList.add("written-task");
+  textarea.id = `textarea-task-${taskId}`;
   textarea.placeholder = "Write Your Task";
   textarea.onkeydown = function (event) {
     return event.key !== 'Enter';
   };
 
-  // Создаем иконку корзины для удаления задачи
   let trashIcon = document.createElement("i");
   trashIcon.classList.add("fa-solid", "fa-trash");
   trashIcon.onclick = function (event) {
-    deleteTask(event);
+    console.log(taskId);
+    deleteTask(taskId);
   };
-  
-  // Получаем идентификатор секции
-  let sectionId = document.getElementById('section-name').getAttribute('data-section-id');
 
-  // Добавляем элементы в li-элемент
+  let sectionId = document.getElementById('section-name').getAttribute('data-section-id');
+  liTag.setAttribute('data-section-id', sectionId);
   liTag.appendChild(checkbox);
   liTag.appendChild(inputTask);
   inputTask.appendChild(textarea);
   liTag.appendChild(trashIcon);
-
-  // Добавляем li-элемент в todoList
-  todoList.appendChild(liTag);
   let taskDescription = textarea.value;
-  console.log(sectionId);
-  saveTaskToServer(taskDescription, sectionId, liTag);
-/*   liTag.setAttribute("data-task-id", taskId); // Устанавливаем атрибут data-task-id для li-элемента */
-  // Активируем текстовое поле при создании
+  //let taskId = liTag.getAttribute("data-task-id");
+  saveTaskToServer(taskDescription, sectionId, liTag)
+  todoList.appendChild(liTag);
+
+  liTag.addEventListener("click", function () {
+    taskId = this.getAttribute("data-task-id");
+    //liTag.setAttribute("data-task-id", taskId);
+    console.log("click", taskId);
+  });
+
+// Находим все textarea элементы внутри todoList
+var textareas = todoList.querySelectorAll('textarea');
+
+// Добавляем обработчик события focus для каждого textarea
+textareas.forEach(textarea => {
+  textarea.addEventListener('focus', function () {
+    // Находим ближайший родительский элемент liTag
+    var liTag = this.closest('li');
+    // Проверяем, найден ли liTag
+    if (liTag && liTag.tagName === 'LI') {
+      // Получаем значение атрибута "data-task-id"
+      //var taskId = liTag.getAttribute('data-task-id');
+      // Печатаем значение в консоль
+      console.log('Value of data-task-id attribute:', taskId);
+    }
+  });
+});
+
   textarea.focus();
 
-  // Устанавливаем обработчик события потери фокуса
   textarea.addEventListener('blur', function () {
     let taskDescription = textarea.value;
-     liTag.addEventListener("click", function() {
-      taskId = this.getAttribute("data-task-id");
-    });
-    // Если поле пусто, удаляем li-элемент
-    if (taskDescription.trim() === '') {
-      liTag.remove(); 
-      deleteTaskFromServer(taskId); // функция для удаления задачи из базы
+    console.log("asdasdasd", taskId);
+    if (taskId) {
+      if (taskDescription.trim() === '') {
+        liTag.remove(); 
+        deleteTaskFromServer(taskId);
+      } else {
+        updateTaskOnServer(taskId, taskDescription)
+      }
     } else {
-      // Если поле не пусто, сохраняем задачу в базу данных
-     /*  saveTaskToServer(taskDescription, sectionId, liTag); */
-      updateTaskOnServer(taskId, taskDescription)
-      console.log('Задача успешно изменена:', taskDescription);
-      console.log('id задачи -', taskId);
-      console.log(liTag.getAttribute("data-task-id"));
-    }
+        console.error("taskId is undefined");
+    } 
   }); 
 });
 
@@ -267,7 +301,7 @@ function loadSections() {
     // Загрузить задачи для каждой секции
     data.forEach(section => {
       loadTasks(section.id);
-      console.log(section.id)
+      console.log("section",section.id)
     });
   })
   .catch(error => {
@@ -276,71 +310,99 @@ function loadSections() {
 }
 
 // Вызываем функцию загрузки секций при загрузке страницы
-window.onload = loadSections;
+//window.onload = loadSections;
 
 
 // Функция для загрузки задач для указанной секции
 function loadTasks(sectionId) {
-  // Проверяем, существует ли элемент на странице
-  var taskSection = document.getElementById(`section-id-${sectionId}`);
-  //console.log(taskSection);
-  //console.log(sectionId);
+  // Получаем элемент секции с использованием переданного sectionId
+  var taskSection = document.querySelector(`[data-section-id="${sectionId}"]`);
+
   if (!taskSection) {
-      console.error(`Element with id "section_id-${sectionId}" not found`);
-      return;
+    console.error(`Элемент с атрибутом "data-section-id=${sectionId}" не найден`);
+    return;
   }
 
   // Отправляем запрос на сервер
   fetch(`/get_tasks?sectionId=${sectionId}`)
     .then(response => response.json())
     .then(data => {
-      console.log('Tasks successfully loaded:', data);
+      console.log('Ответ от сервера:', data);
 
-      // Очищаем содержимое элемента
-      taskSection.innerHTML = '';
+      // Проверяем, есть ли ключ "tasks" в данных
+      if (data.hasOwnProperty('tasks') && Array.isArray(data.tasks) && data.tasks.length > 0) {
+        console.log('Задачи успешно загружены:', data.tasks);
 
-      // Добавляем задачи в элемент
-      data.forEach(task => {
+        // НЕ очищаем содержимое элемента
+
+        // Добавляем задачи в элемент
+        data.tasks.forEach(task => {
           // Создаем новый li-элемент
           let liTag = document.createElement("li");
           liTag.classList.add("list");
-
+          liTag.setAttribute("data-task-id", task.id);
+          console.log("id", liTag.getAttribute("data-task-id"));
           // Создаем новый чекбокс
           let checkbox = document.createElement("input");
           checkbox.type = "checkbox";
-
+          checkbox.id = `checkbox-task-${task.id}`;
+  
           // Создаем блок для ввода задачи
           let inputTask = document.createElement("div");
           inputTask.classList.add("input-task");
-
+  
           // Создаем текстовое поле для задачи
           let textarea = document.createElement("textarea");
-          textarea.id = "textarea-task";
+          textarea.id = `textarea-task-${task.id}`;
           textarea.classList.add("written-task");
-          textarea.value = task.description; // Задаем описание задачи
-
+          textarea.value = task.task_description; // Задаем описание задачи
+  
           // Создаем иконку корзины для удаления задачи
           let trashIcon = document.createElement("i");
           trashIcon.classList.add("fa-solid", "fa-trash");
           trashIcon.onclick = function (event) {
-            deleteTask(event);
+            console.log(task.id);
+            //const taskId = event.currentTarget.parentElement.getAttribute("data-task-id");
+            deleteTask(task.id);
           };
-
+  
           // Добавляем элементы в li-элемент
           liTag.appendChild(checkbox);
           liTag.appendChild(inputTask);
           inputTask.appendChild(textarea);
           liTag.appendChild(trashIcon);
-
+  
           // Добавляем li-элемент в taskSection
-          taskSection.appendChild(liTag);
-      });
+          document.body.appendChild(liTag);
+          todoList.appendChild(liTag);
+          liTag.appendChild(trashIcon);
+          let foundLiTag = document.querySelector(`[data-task-id="${task.id}"]`);
+          console.log(foundLiTag);
+          liTag.addEventListener("click", function () {
+            taskId = this.getAttribute("data-task-id");
+          });
+          textarea.addEventListener('blur', function () {
+            let taskDescription = textarea.value;
+            if (taskId) {
+              if (taskDescription.trim() === '') {
+                liTag.remove(); 
+                deleteTaskFromServer(task.id);
+              } else {
+                updateTaskOnServer(task.id, taskDescription)
+              }
+            } else {
+                console.error("taskId is undefined");
+            } 
+          });
+        });
+      } else {
+        console.log('Данные не содержат задач.');
+      }
     })
     .catch(error => {
-      console.error('Error loading tasks:', error);
+      console.error('Ошибка при загрузке задач:', error);
     });
 }
-
 
 $(document).ready(function() {
   $('#section-name').on('blur', function() {
