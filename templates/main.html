@@ -141,14 +141,15 @@
     </nav>
     <section class="home" id="home">
       <div class="home_container">
-        <div class="input-field" id="section-list" data-section-id=1>
-          {% if user_data %}
+        {% if user_data %}
+        <div class="input-field" id="section-list" data-section-id="{{ user_data.sections[0].section_id }}">
+          
           <textarea
             type="text"
             name="section-name"
             id="section-name"
             placeholder="Введите название секции"
-            data-section-id="1"
+            data-section-id="{{ user_data.sections[0].section_id }}"
           >{{ user_data.sections[0].name_of_section if user_data and user_data.sections else '' }}</textarea>
           {% else %}
           <p>Данные пользователя отсутствуют.</p>

@@ -210,7 +210,8 @@ addTaskButton.addEventListener("click", () => {
   let trashIcon = document.createElement("i");
   trashIcon.classList.add("fa-solid", "fa-trash");
   trashIcon.onclick = function (event) {
-    console.log(taskId);
+    taskId = liTag.getAttribute("data-task-id");
+    console.log("Удаляется", taskId);
     deleteTask(taskId);
   };
 
@@ -224,6 +225,9 @@ addTaskButton.addEventListener("click", () => {
   //let taskId = liTag.getAttribute("data-task-id");
   saveTaskToServer(taskDescription, sectionId, liTag)
   todoList.appendChild(liTag);
+
+
+
 
   liTag.addEventListener("click", function () {
     taskId = this.getAttribute("data-task-id");
@@ -242,7 +246,7 @@ textareas.forEach(textarea => {
     // Проверяем, найден ли liTag
     if (liTag && liTag.tagName === 'LI') {
       // Получаем значение атрибута "data-task-id"
-      //var taskId = liTag.getAttribute('data-task-id');
+      //taskId = liTag.getAttribute('data-task-id');
       // Печатаем значение в консоль
       console.log('Value of data-task-id attribute:', taskId);
     }
@@ -317,8 +321,10 @@ function loadSections() {
 function loadTasks(sectionId) {
   // Получаем элемент секции с использованием переданного sectionId
   var taskSection = document.querySelector(`[data-section-id="${sectionId}"]`);
+  console.log("taskSection", taskSection);
 
   if (!taskSection) {
+    console.log("taskSection", sectionId);
     console.error(`Элемент с атрибутом "data-section-id=${sectionId}" не найден`);
     return;
   }
@@ -403,6 +409,32 @@ function loadTasks(sectionId) {
       console.error('Ошибка при загрузке задач:', error);
     });
 }
+
+function addSection() {
+  const sectionName = document.getElementById('section-name').value;
+  fetch('/add_section', {
+    method: 'POST',
+    body: new URLSearchParams({ section_name: sectionName }),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Секция успешно добавлена:', data);
+    console.log('Функция addSection() вызвана');
+    // После добавления секции обновляем список секций
+    loadSections();
+  }
+  )
+  .catch(error => {
+    console.error('Ошибка при добавлении секции:', error);
+    console.log(sectionName)
+  }
+  );
+}
+
+// Функция для добавления секции
 
 $(document).ready(function() {
   $('#section-name').on('blur', function() {
