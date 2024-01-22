@@ -313,10 +313,6 @@ function loadSections() {
   });
 }
 
-// Вызываем функцию загрузки секций при загрузке страницы
-//window.onload = loadSections;
-
-
 // Функция для загрузки задач для указанной секции
 function loadTasks(sectionId) {
   // Получаем элемент секции с использованием переданного sectionId

@@ -438,7 +438,7 @@ def get_tasks():
         section_id = request.args.get('sectionId')  # Исправлено на 'sectionId'
 
         # Получаем задачи для указанной секции
-        tasks = db_session.query(Tasks).filter_by(section_id=section_id).all()
+        tasks = db_session.query(Tasks).filter_by(section_id=section_id).order_by(Tasks.id).all()
 
         # Преобразуем задачи в формат JSON
         tasks_json = [

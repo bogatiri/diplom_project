@@ -988,3 +988,8 @@ textarea::-webkit-scrollbar{
   width: 50px;
   min-height: 50px;
 }
+
+.popup_text{
+  font-size: 30px;
+  font-weight: bolderон про;
+}
