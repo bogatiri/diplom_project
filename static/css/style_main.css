@@ -719,11 +719,12 @@ body.dark .popup button:hover {
   align-items: center;
   opacity: 0;
   visibility: hidden;
-}
+  text-align: center;
+} 
 
 .home_1 .text {
-  font-size: 30px;
-  font-weight: 500;
+  font-size: 100px;
+  font-weight: 1000;
   color: var(--text-color);
   padding: 8px 40px;
   align-items: center;
