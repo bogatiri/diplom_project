@@ -217,9 +217,10 @@ addTaskButton.addEventListener("click", () => {
 
   let sectionId = document.getElementById('section-name').getAttribute('data-section-id');
   liTag.setAttribute('data-section-id', sectionId);
+
+  inputTask.appendChild(textarea);
   liTag.appendChild(checkbox);
   liTag.appendChild(inputTask);
-  inputTask.appendChild(textarea);
   liTag.appendChild(trashIcon);
   let taskDescription = textarea.value;
   //let taskId = liTag.getAttribute("data-task-id");
