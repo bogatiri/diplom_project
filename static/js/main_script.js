@@ -255,6 +255,13 @@ textareas.forEach(textarea => {
 
   textarea.focus();
 
+  textarea.addEventListener("input", function() {
+    // Устанавливаем высоту textarea равной высоте скролла
+    // Это позволяет убрать лишний пространство и полосу прокрутки
+    textarea.style.height = textarea.scrollHeight + "px";
+    liTag.style.minHeight = textarea.scrollHeight + "px";
+  });
+
   textarea.addEventListener('blur', function () {
     let taskDescription = textarea.value;
     console.log("asdasdasd", taskId);
@@ -380,9 +387,19 @@ function loadTasks(sectionId) {
           liTag.appendChild(trashIcon);
           let foundLiTag = document.querySelector(`[data-task-id="${task.id}"]`);
           console.log(foundLiTag);
+
           liTag.addEventListener("click", function () {
             taskId = this.getAttribute("data-task-id");
           });
+
+
+          textarea.addEventListener("input", function() {
+            // Устанавливаем высоту textarea равной высоте скролла
+            // Это позволяет убрать лишний пространство и полосу прокрутки
+            textarea.style.height = textarea.scrollHeight + "px";
+            liTag.style.minHeight = textarea.scrollHeight + "px";
+          });
+
           textarea.addEventListener('blur', function () {
             let taskDescription = textarea.value;
             if (taskId) {
@@ -396,6 +413,12 @@ function loadTasks(sectionId) {
                 console.error("taskId is undefined");
             } 
           });
+                    // Получаем высоту скролла textarea
+          var scrollHeight = textarea.scrollHeight;
+          // Устанавливаем высоту textarea равной высоте скролла
+          textarea.style.height = scrollHeight + "px";
+          // Устанавливаем минимальную высоту liTag равной высоте скролла
+          liTag.style.minHeight = scrollHeight + "px";
         });
       } else {
         console.log('Данные не содержат задач.');

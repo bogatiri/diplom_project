@@ -129,7 +129,7 @@ class TeamLeads(Base):
     project_id = Column(Integer, ForeignKey('projects.id'))
     task_from_team_lead = Column(Integer, ForeignKey('tasks.id'))
     
-    """ sections = relationship('Section', back_populates='user') """
+    """ sections = relationship('Section', back_populates='user')  """
     
     def __init__(self, team_lead_id="", teams_id="", project_id="", task_from_team_lead=""):
         self.team_lead_id = team_lead_id
@@ -141,6 +141,24 @@ class TeamLeads(Base):
         return f'team_lead_id: {self.team_lead_id}, teams_id: {self.teams_id}, project_id: {self.project_id}, task_from_team_lead: {self.task_from_team_lead}'
     
 
+    
+class Roles_in_project(Base):  
+    __tablename__ = 'roles_in_project'
+    id = Column(Integer, primary_key=True)
+    role = Column(String)
+    user_id = Column(Integer, ForeignKey('Users.id'))
+    project_id = Column(Integer, ForeignKey('projects.id'))
+    
+    def __init__(self, role="", user_id="", project_id=""):
+        self.role = role
+        self.user_id = user_id
+        self.project_id = project_id
+    
+    def __repr__(self):
+        return f'role: {self.role}, user_id: {self.user_id}, project_id: {self.project_id}'
+    
+    
+           
     
 
 class Comments(Base):
