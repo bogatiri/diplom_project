@@ -572,7 +572,8 @@ body.dark .switch::before {
   left: 250px;
   right: 0;
   width: calc(100%-250px);
-  background: var(--body-color);
+  background: linear-gradient(45deg, rgba(103, 0, 31, .8), rgba(34, 101, 163, .5));
+  background-size: cover;
   transition: var(--tran-05);
   align-items: center;
 }
@@ -762,11 +763,12 @@ body.dark .popup button:hover {
 
 .home_container{
   max-width: 280px;
-
+  max-height: 80%;
+  background-color: var(--body-color);
   position: relative;
   width: 100%;
   box-shadow: 0 5px 10px rgba(0,0,0, 0.1);
-  border-radius: 8px;
+  border-radius: 14px;
   padding: 15px;
   margin: 85px;
   border: 1px solid var(--primary-color-light);

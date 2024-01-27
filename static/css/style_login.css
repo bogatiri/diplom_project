@@ -63,7 +63,8 @@ body{
 
 .container button:hover,
 .container button.hidden:hover{
-    background-color: red;
+    background-color: #eae8fb;
+    color: #707070;
     transition: all 0.5s ease;
 }
 
