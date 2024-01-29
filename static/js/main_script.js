@@ -97,7 +97,6 @@ modeSwitch.addEventListener("click", () => {  // !Смена темы
   saveThemeToServer(currentTheme);
 });
 
-
 document.getElementById("avatar").addEventListener("change", function () {
   document.getElementById("upload-form").submit();
 });
@@ -119,7 +118,6 @@ function findClosestLi(element) { // !Функция для нахождения
   }
   return element;
 }
-
 
 function deleteTask(taskId) { // !Функция для Удаления задачи с фронта
   const liTag = findClosestLi(document.querySelector(`[data-task-id="${taskId}"]`));
@@ -153,7 +151,6 @@ function deleteTaskFromServer(taskId) { // !Функция для удалени
     console.error("Ошибка при удалении задачи:", error);
   });
 }
-
 
 function saveTaskToServer(taskDescription, liTag) { // !Функция для сохранения задачи в базу
   let formData = new FormData();
@@ -212,75 +209,47 @@ function loadSections() { // !Функция, которая подгружае�
   .then(data => {
     data.forEach(section => {
         let homeContainer = document.createElement("div");
-        homeContainer.setAttribute("data-section-id", section.id);
         homeContainer.className = "home_container";
-
+        homeContainer.setAttribute("data-section-id", section.id);
         let inputField = document.createElement("div");
         inputField.className = "input-field";
+        inputField
       
         let textarea = document.createElement("textarea");
-        textarea.placeholder = "Print your title here";
-        textarea.value = section.name_of_section;
         textarea.name = "section-name";
         textarea.id = section.id;
-
+        textarea.placeholder = "Print your title here";
+        textarea.value = section.name_of_section;
+      
+        inputField.appendChild(textarea);
         let link = document.createElement("a");
         link.href = "#";
-
         let icon = document.createElement("i");
         icon.className = "fa-solid fa-ellipsis note-icon";
-
+        link.appendChild(icon);
+        inputField.appendChild(link);
+        homeContainer.appendChild(inputField);
         let todoList = document.createElement("ul");
         todoList.className = "todoList";
         todoList.id = section.id;
-
-        
+        homeContainer.appendChild(todoList);
         let listbtn = document.createElement("li");
         listbtn.className = "listbtn";
         listbtn.id = section.id;
-
         let plusIcon = document.createElement("i");
         plusIcon.className = "fa-solid fa-plus addTask";
         plusIcon.id = section.id;
+        listbtn.appendChild(plusIcon);
 
         let button = document.createElement("button");
-        button.textContent = "Add Task";
         button.className = "add-task";
+        button.textContent = "Add Task";
         button.id = section.id;
-
-        let link2 = document.createElement("a");
-        link2.id = section.id;
-        link2.href = "#";
-        
-        let ticketIcon = document.createElement("i");
-        ticketIcon.className = "fa-solid fa-ticket note-iconbtn";
-        ticketIcon.id = section.id;
-
-        let addSectionButtons = document.querySelector(".add_section");
-        let parent = document.querySelector(".home");
-        parent.insertBefore(homeContainer, addSectionButtons);
-
-        link.appendChild(icon);
-        listbtn.appendChild(link2);
-        listbtn.appendChild(button);
-        inputField.appendChild(link);
-        link2.appendChild(ticketIcon);
-        listbtn.appendChild(plusIcon);
-        inputField.appendChild(textarea);
-        homeContainer.appendChild(listbtn);
-        homeContainer.appendChild(todoList);
-        homeContainer.appendChild(inputField);
-
         button.addEventListener("click", () => { // !Функция для добавления задач в подгруженных секциях
           let liTag = document.createElement("li");
-          let sectionId = button.id;
-          liTag.setAttribute('data-section-id', sectionId);
-          liTag.setAttribute('data-task-id', taskId);
           liTag.classList.add("list");
-
           let checkbox = document.createElement("input");
           checkbox.type = "checkbox";
-
           let taskId = Math.random().toString(36);
           checkbox.id = `checkbox-task-${taskId}`;
       
@@ -301,17 +270,28 @@ function loadSections() { // !Функция, которая подгружае�
             taskId = liTag.getAttribute("data-task-id");
             deleteTask(taskId);
           };
+
+          let sectionId = button.id;
+          liTag.setAttribute('data-section-id', sectionId);
+          liTag.setAttribute('data-task-id', taskId);
       
           inputTask.appendChild(textarea);
+          liTag.appendChild(checkbox);
           liTag.appendChild(inputTask);
           liTag.appendChild(trashIcon);
-          liTag.appendChild(checkbox);
-          todoList.appendChild(liTag);
 
           let taskDescription = textarea.value;
           saveTaskToServer(taskDescription, liTag)
 
+          todoList.appendChild(liTag);
+        
+          textarea.addEventListener('focus', function () { // !Функция которая должна что-то делать при фокусе, но нихуя не делает
+            var liTag = this.closest('li');
+            taskId = liTag.getAttribute('data-task-id');
+          });
+      
           textarea.focus();
+      
           textarea.addEventListener("input", function() { // !Функция которая при вводе в textaea меняет собственную высоту и высоту контейнера Li
             textarea.style.height = textarea.scrollHeight + "px";
             liTag.style.minHeight = textarea.scrollHeight + "px";
@@ -332,13 +312,31 @@ function loadSections() { // !Функция, которая подгружае�
             } 
         }); 
         });
+
+        listbtn.appendChild(button);
+
+        let link2 = document.createElement("a");
+        link2.href = "#";
+        link2.id = section.id;
+
+        let ticketIcon = document.createElement("i");
+        ticketIcon.className = "fa-solid fa-ticket note-iconbtn";
+        ticketIcon.id = section.id;
+      
+        link2.appendChild(ticketIcon);
       
         textarea.addEventListener("keydown", function (event) { // !Функция, которая при нажатии ентер убирает фокус с textarea
           if (event.key == "Enter") {
             textarea.blur();
           }
         });
-
+      
+        listbtn.appendChild(link2);
+      
+        homeContainer.appendChild(listbtn);
+        let addSectionButtons = document.querySelector(".add_section");
+        let parent = document.querySelector(".home");
+        parent.insertBefore(homeContainer, addSectionButtons);
         textarea.addEventListener('blur', function () { // !Функция которая при потере фокуса либо удаляет секцию, либо обновляет ее название, хз зачем удаляет опять-же
           let sectionName = textarea.value;
           if(section.id){
@@ -359,7 +357,6 @@ function loadSections() { // !Функция, которая подгружае�
   });
 }
 
-
 function loadTasks(sectionId) { // !Функция которая подгружает задачи при обновлении страницы(Вызывается внутри функции загрузки секций)
   fetch(`/get_sections`)
     .then(response => response.json())
@@ -368,15 +365,17 @@ function loadTasks(sectionId) { // !Функция которая подгруж
         console.error(`Секция с id=${sectionId} не найдена`);
         return;
       }
+
       fetch(`/get_tasks?sectionId=${sectionId}`)
         .then(response => response.json())
         .then(data => {
+
           if (data.hasOwnProperty('tasks') && Array.isArray(data.tasks) && data.tasks.length > 0) {
+            
             data.tasks.forEach(task => {
             let liTag = document.createElement("li");
             liTag.classList.add("list");
             liTag.setAttribute("data-task-id", task.id);
-
             let checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = `checkbox-task-${task.id}`;
@@ -394,19 +393,16 @@ function loadTasks(sectionId) { // !Функция которая подгруж
             trashIcon.onclick = function (event) {
               deleteTask(task.id);
             };
-            let todoList = document.querySelector(`ul[id="${sectionId}"]`);
-
+    
             liTag.appendChild(checkbox);
             liTag.appendChild(inputTask);
             inputTask.appendChild(textarea);
             liTag.appendChild(trashIcon);
+    
             document.body.appendChild(liTag);
+            let todoList = document.querySelector(`ul[id="${sectionId}"]`);
             todoList.appendChild(liTag);
             liTag.appendChild(trashIcon);
-
-            var scrollHeight = textarea.scrollHeight;
-            textarea.style.height = scrollHeight + "px";
-            liTag.style.minHeight = scrollHeight + "px";
 
             textarea.addEventListener("input", function() {
               textarea.style.height = textarea.scrollHeight + "px";
@@ -422,14 +418,18 @@ function loadTasks(sectionId) { // !Функция которая подгруж
                   deleteTaskFromServer(task.id);
                 } else {
                   updateTaskOnServer(task.id, taskDescription)
-                  }
-                } 
-                else {
+                }
+              } 
+              else {
                   console.error("taskId is undefined");
-                } 
-              });
+              } 
             });
-          } else{}
+            var scrollHeight = textarea.scrollHeight;
+            textarea.style.height = scrollHeight + "px";
+            liTag.style.minHeight = scrollHeight + "px";
+        });
+      } else {
+      }
     })
     .catch(error => {
       console.error('Ошибка при загрузке задач:', error);
@@ -441,66 +441,47 @@ function loadTasks(sectionId) { // !Функция которая подгруж
 }
 
 
+
 addSectionButtons.addEventListener("click", function() {  // !Функция добавления новой секции(Все внутренние функции аналогичны тем, что были выше)
   let sectionId = Math.floor(Math.random() * 10000)
-
   let homeContainer = document.createElement("div");
   homeContainer.className = "home_container";
   homeContainer.setAttribute("data-section-id", sectionId);
-
   let inputField = document.createElement("div");
   inputField.className = "input-field";
-
   let textarea = document.createElement("textarea");
   textarea.name = "section-name";
   textarea.id = sectionId;
   textarea.placeholder = "Print your title here";
-
+  inputField.appendChild(textarea);
   let link = document.createElement("a");
   link.href = "#";
-
   let icon = document.createElement("i");
   icon.className = "fa-solid fa-ellipsis note-icon";
   link.appendChild(icon);
+  inputField.appendChild(link);
+  homeContainer.appendChild(inputField);
+
 
   let todoList = document.createElement("ul");
   todoList.className = "todoList";
-
+  homeContainer.appendChild(todoList);
   let listbtn = document.createElement("li");
   listbtn.className = "listbtn";
-
   let plusIcon = document.createElement("i");
   plusIcon.className = "fa-solid fa-plus addTask";
-
+  listbtn.appendChild(plusIcon);
   let button = document.createElement("button");
   button.className = "add-task";
   button.textContent = "Add Task";
-
-  let link2 = document.createElement("a");
-  link2.href = "#";
-
-  let ticketIcon = document.createElement("i");
-  ticketIcon.className = "fa-solid fa-ticket note-iconbtn";
-
-  inputField.appendChild(textarea);
-  inputField.appendChild(link);
-  link2.appendChild(ticketIcon);
-  listbtn.appendChild(link2);
-  listbtn.appendChild(plusIcon);
-  homeContainer.appendChild(inputField);
-  homeContainer.appendChild(todoList);
-  homeContainer.appendChild(listbtn);
-
   let sectionName = Math.random().toString(36);
   saveSectionToServer(sectionName, homeContainer);
 
   button.addEventListener("click", () => {
     let liTag = document.createElement("li");
     liTag.classList.add("list");
-
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-
     let taskId = Math.random().toString(36);
     checkbox.id = `checkbox-task-${taskId}`;
 
@@ -519,6 +500,7 @@ addSectionButtons.addEventListener("click", function() {  // !Функция д�
     trashIcon.classList.add("fa-solid", "fa-trash");
     trashIcon.onclick = function (event) {
       taskId = liTag.getAttribute("data-task-id");
+
       deleteTask(taskId);
     };
 
@@ -529,10 +511,19 @@ addSectionButtons.addEventListener("click", function() {  // !Функция д�
     liTag.appendChild(checkbox);
     liTag.appendChild(inputTask);
     liTag.appendChild(trashIcon);
-    todoList.appendChild(liTag);
-
     let taskDescription = textarea.value;
     saveTaskToServer(taskDescription, liTag)
+    todoList.appendChild(liTag);
+
+    liTag.addEventListener("click", function () {
+      let taskId = liTag.getAttribute("data-task-id");
+
+    });
+  
+    textarea.addEventListener('focus', function () {
+      var liTag = this.closest('li');
+      taskId = liTag.getAttribute('data-task-id');
+    });
 
     textarea.focus();
 
@@ -556,6 +547,14 @@ addSectionButtons.addEventListener("click", function() {  // !Функция д�
       } 
     }); 
   });
+  
+  listbtn.appendChild(button);
+  let link2 = document.createElement("a");
+  link2.href = "#";
+  let ticketIcon = document.createElement("i");
+  ticketIcon.className = "fa-solid fa-ticket note-iconbtn";
+
+  link2.appendChild(ticketIcon);
 
   textarea.addEventListener("keydown", function (event) {
     if (event.key == "Enter") {
@@ -563,6 +562,9 @@ addSectionButtons.addEventListener("click", function() {  // !Функция д�
     }
   });
 
+  listbtn.appendChild(link2);
+  
+  homeContainer.appendChild(listbtn);
   let addSectionButtons = document.querySelector(".add_section");
   let parent = document.querySelector(".home");
   parent.insertBefore(homeContainer, addSectionButtons);
