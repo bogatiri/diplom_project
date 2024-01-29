@@ -14,7 +14,7 @@
     <nav class="navbar">
       <div class="nav-search-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" placeholder="Search..." />
+        <input type="text" name="SerachNav" placeholder="Search..." />
       </div>
       <a href="#" class="logo">DiplomProject</a>
       <ul class="nav-links">
@@ -88,7 +88,7 @@
         <div class="menu">
           <li class="search-box">
             <i class="fa-solid fa-magnifying-glass icon"></i>
-            <input type="text" placeholder="Search..." />
+            <input type="text" name="search" placeholder="Search..." />
           </li>
           <ul class="menu-links">
             <li class="nav-link">
@@ -140,34 +140,14 @@
       </div>
     </nav>
     <section class="home" id="home">
-      <div class="home_container">
-        {% if user_data %}
-        <div class="input-field" id="section-list" data-section-id="{{ user_data.sections[0].section_id }}">
-          
-          <textarea
-            type="text"
-            name="section-name"
-            id="section-name"
-            placeholder="Print your title here"
-            data-section-id="{{ user_data.sections[0].section_id }}"
-          >{{ user_data.sections[0].name_of_section if user_data and user_data.sections else '' }}</textarea>
-          {% else %}
-          <p>Данные пользователя отсутствуют.</p>
-          {% endif %}
-          <a href="#"><i class="fa-solid fa-ellipsis note-icon"></i></a>
+      
+      <!-- здесь находятся секции home_container-->
+
+        <div class="add_section">
+        <button class="add-section">Добавить секцию</button>
         </div>
-        <ul class="todoList" id="task-section-{{ section_id }}">
-          <!-- Здесь будут отображаться задачи -->
-        </ul>
-        <li class="listbtn">
-          <i class="fa-solid fa-plus addTask" ></i>
-          <button class="add-task" >Add Task</button>
-          <a href="#"><i class="fa-solid fa-ticket note-iconbtn"></i></a>
-        </li>
-        
-        <!--<button class="add-task" onclick="addSection()">Добавить секцию</button> -->
-      </div>
     </section>
+    
     <section class="home_1" id="home_1">
       <div class="text">Сайт для GTA-5</div>
     </section>

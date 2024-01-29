@@ -41,6 +41,10 @@ app.config['AVATARS_FOLDER'] = 'static/avatars'
 app.secret_key = "qeasdqwe"
 
 # ----------------------------------------------------------------------------------------------------
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.close()
+
 
 
 @app.route("/", methods=["POST", "GET"])  #!Регистрация
@@ -127,7 +131,9 @@ def get_user_data(email):
 
         # Если у пользователя есть связанные секции, добавьте их данные
         if user.sections:
-            for section in user.sections:
+            # Сортируем секции по их идентификаторам
+            sorted_sections = sorted(user.sections, key=lambda section: section.id)
+            for section in sorted_sections:
                 section_data = {
                     "name_of_section": section.name_of_section,
                     "section_id": section.id
@@ -285,32 +291,7 @@ def upload_avatar():
 
 
 # ----------------------------------------------------------------------------------------------------
-@app.route('/add_section', methods=['POST'])
-def add_section():
-    try:
-        section_name = request.form.get('section_name')
 
-        # Получаем пользователя из куков
-        user_email = request.cookies.get('user')
-        user = db_session.query(Users).filter_by(email=user_email).first()
-
-        if user:
-            # Проверяем, существует ли секция с указанным именем для данного пользователя
-            section = db_session.query(Section).filter_by(user=user, name_of_section=section_name).first()
-
-            # Если секция не существует, создаем новую секцию
-            if not section:
-                section = Section(name_of_section=section_name, user=user)
-                db_session.add(section)
-                db_session.commit()
-
-                return jsonify({"status": "success", "section_id": section.id})
-            else:
-                return jsonify({"status": "error", "message": "Section with this name already exists"})
-        else:
-            return jsonify({"status": "error", "message": "User not found"})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)})
 
 @app.route('/save_name_of_section', methods=['POST'])
 def save_name_of_section():
@@ -331,18 +312,49 @@ def save_name_of_section():
         else:
             return 'User not found', 404
 
+@app.route('/add_section', methods=['POST'])
+def add_section():
+    try:
+        section_name = request.form.get('section_name')
+
+        # Получаем пользователя из куков
+        user_email = request.cookies.get('user')
+        user = db_session.query(Users).filter_by(email=user_email).first()
+
+        if user:
+            # Проверяем, существует ли секция с указанным именем для данного пользователя
+            section = db_session.query(Section).filter_by(user=user, name_of_section=section_name).first()
+
+            # Если секция не существует, создаем новую секцию
+            if not section:
+                section = Section(name_of_section=section_name, user=user)
+                db_session.add(section)
+                db_session.commit()
+
+                return jsonify({"status": "success", "section_id": section.id, "section_name": section.name_of_section})
+            else:
+                return jsonify({"status": "error", "message": "Section with this name already exists"})
+        else:
+            return jsonify({"status": "error", "message": "User not found"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
 
 @app.route('/add_task', methods=['POST'])
 def add_task():
+    if db_session.is_active:
+        print("Сессия активна")
+    else:
+        print("Сессия закрыта")
+
     try:
         if request.method == 'POST':
             task_description = request.form.get('task_description')
-
+            section_id = request.form.get('section_id')
             user_email = request.cookies.get('user')
             user = db_session.query(Users).filter_by(email=user_email).first()
 
             if user:
-                section = db_session.query(Section).filter_by(user=user).first()
+                section = db_session.query(Section).filter_by(id=section_id).first()
 
                 if not section:
                     return jsonify({"status": "error", "message": "Section not found"})
@@ -420,7 +432,7 @@ def get_sections():
 
         if user:
             # Получаем список секций для данного пользователя
-            sections = db_session.query(Section).filter_by(user=user).all()
+            sections = db_session.query(Section).filter_by(user=user).order_by(Section.id).all()
 
             # Преобразуем секции в формат JSON
             sections_json = [{"id": section.id, "name_of_section": section.name_of_section} for section in sections]
