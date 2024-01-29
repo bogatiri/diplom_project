@@ -38,8 +38,6 @@ body.dark {
   --color-icon: white;
 }
 
-/* ====== NavBar ====== */
-
 .navbar {
   background: var(--sidebar-color);
   position: fixed;
@@ -202,7 +200,6 @@ body.dark .navbar li a:hover .text {
   color: var(--text-color);
 }
 
-/* responsive */
 @media screen and (max-width: 1160px) {
   .navbar {
     padding: 15px 100px;
@@ -298,7 +295,7 @@ body.dark .navbar li a:hover .text {
     width: calc(100%- (88px+50px));
   }
 }
-/* ====== Sidebar ====== */
+
 .sidebar {
   position: fixed;
   top: 7%;
@@ -316,7 +313,6 @@ body.dark .navbar li a:hover .text {
   width: 88px;
 }
 
-/* ====== Resuable CSS ====== */
 .sidebar .text {
   font-size: 16px;
   font-weight: 500;
@@ -381,8 +377,6 @@ body.dark .navbar li a:hover .text {
   transition: var(--tran-05);
 }
 
-
-
 .sidebar header .image-text {
   display: flex;
   align-items: center;
@@ -424,8 +418,6 @@ header .image-text .header-text {
   border-radius: 50%;
   right: -25px;
 }
-
-
 
 body.dark .sidebar header .toggle {
   color: var(--text-color);
@@ -744,7 +736,6 @@ body.dark .popup button:hover {
   visibility: visible;
 }
 
-
 .file-upload-label {
   display: inline-block;
   cursor: pointer;
@@ -781,8 +772,7 @@ body.dark .popup button:hover {
   flex-shrink: 0;
 }
 
-
- .home::-webkit-scrollbar-track {
+.home::-webkit-scrollbar-track {
   border: 1px solid var(--primary-color-light);
   border-radius: 6px;
   padding: 2px 0;
@@ -793,12 +783,12 @@ body.dark .popup button:hover {
 .home::-webkit-scrollbar {
   height: 10px;
 }
+
 .home::-webkit-scrollbar-thumb {
   border-radius: 10px;
   box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: var(--primary-color);;
   border: 1px solid var(--text-color);
-
 }
 
 .home_container .input-field{
@@ -947,8 +937,7 @@ body.dark .input-field .note-icon:hover{
   color: var(--text-color)
 }
 
-
- .listbtn{
+.listbtn{
   display: flex;
   align-items: center;
   list-style: none;
@@ -1054,7 +1043,6 @@ body.dark .input-field .note-icon:hover{
 .list input:checked ~ .input-task textarea{
   text-decoration: line-through;
 }
-
 
 .todoList .list .task{
   margin: 0 30px 0 15px;
