@@ -312,6 +312,10 @@ def save_name_of_section():
         else:
             return 'User not found', 404
 
+
+# ----------------------------------------------------------------------------------------------------
+
+
 @app.route('/add_section', methods=['POST'])
 def add_section():
     try:
@@ -338,6 +342,10 @@ def add_section():
             return jsonify({"status": "error", "message": "User not found"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
+
+
+# ----------------------------------------------------------------------------------------------------
+
 
 @app.route('/add_task', methods=['POST'])
 def add_task():
@@ -371,6 +379,9 @@ def add_task():
         return jsonify({"status": "error", "message": str(e)})
 
 
+# ----------------------------------------------------------------------------------------------------
+
+
 @app.route('/update_task', methods=['POST'])
 def update_task():
     try:
@@ -398,6 +409,9 @@ def update_task():
         return jsonify({"status": "error", "message": str(e)})
 
 
+# ----------------------------------------------------------------------------------------------------
+
+
 @app.route('/delete_task', methods=['POST'])
 def delete_task():
     try:
@@ -423,6 +437,10 @@ def delete_task():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 
+
+# ----------------------------------------------------------------------------------------------------
+
+
 @app.route('/get_sections')
 def get_sections():
     try:
@@ -442,7 +460,11 @@ def get_sections():
             return jsonify({"status": "error", "message": "User not found"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
+
+
 # ----------------------------------------------------------------------------------------------------
+
+
 # !Маршрут для получения списка задач для указанной секции
 @app.route('/get_tasks')
 def get_tasks():
@@ -463,6 +485,10 @@ def get_tasks():
         return jsonify({"tasks": tasks_json})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
+
+
+# ----------------------------------------------------------------------------------------------------
+
 
 def save_theme_to_db(theme, user_email):  #!Функция сохранения темы
     try:
