@@ -11,6 +11,7 @@ from flask import (
 from src.db.models import Users, Section, Tasks
 from src.db.connect import Session, first_db_connect
 from sqlalchemy.exc import IntegrityError
+import smtplib
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import os
@@ -23,14 +24,37 @@ CORS(app)
 first_db_connect()
 db_session = Session()
 
+
 app.config['AVATARS_FOLDER'] = 'static/avatars'
 
 app.secret_key = "qeasdqwe"
+
+
 
 # ----------------------------------------------------------------------------------------------------
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.close()
+
+message="KYDA MI LEZEM!"
+
+@app.route("/send_mail", methods=["POST", "GET"])  #!Отправка письма
+def send_email(recipient):
+    sender ="ro4evalex@gmail.com"
+    password="pkrm pzdv cowo rjxu"
+    
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    
+    
+    try:
+        server.login(sender, password)
+        server.sendmail(sender, recipient,f"Subject: ZDAROVA ZAEBAL!\n{message}" )
+        return "Письмо отправлено"
+    except Exception as e:
+        return "Ошибка авторизации"
+    
+
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -64,6 +88,8 @@ def register_form():
             organization=organization,
             qualification=qualification,
         )
+        recipient = email
+        send_email(recipient)
         try:
             db_session.add(new_user)
             db_session.commit()
@@ -121,12 +147,14 @@ def login_form():
             session.update(user_data)
             response = make_response(render_template("main.html", user_data=user_data))
             response.set_cookie("user", user.email, max_age=3600 * 24, path="/")
+
             return response
         else:
             return "Неверная почта или пароль. Попробуйте снова."
     elif request.method == "GET":
         return render_template("login.html")
-
+#recipient = email_log
+#send_mail(recipient) 
 # ----------------------------------------------------------------------------------------------------
 
 def get_user_pass(user_email):  #!Получение пароля пользователя

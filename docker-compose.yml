@@ -10,3 +10,16 @@ services:
         ports:
             - "5432:5432"
 
+    postgres_web_diplom:
+            depends_on:
+                - postgres_diplom
+            container_name: web_diplom_project
+            network_mode: host
+            restart: always
+            env_file:
+                - environment/.env.postgres
+            volumes:
+                - ./:/app
+            build:
+                context: ./
+                dockerfile: Dockerfile
