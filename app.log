@@ -1,0 +1,30 @@
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "[36mGET /static/css/style_main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "[36mGET /static/js/main_script.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 13
+INFO:root:Got 14 tasks
+INFO:root:Tasks data: [{'id': 159, 'task_description': '1', 'checked': False}, {'id': 160, 'task_description': '1', 'checked': False}, {'id': 161, 'task_description': '1', 'checked': False}, {'id': 162, 'task_description': '1', 'checked': False}, {'id': 163, 'task_description': '1', 'checked': False}, {'id': 164, 'task_description': '1', 'checked': False}, {'id': 165, 'task_description': '1', 'checked': False}, {'id': 166, 'task_description': '1', 'checked': False}, {'id': 167, 'task_description': '1', 'checked': False}, {'id': 168, 'task_description': '1', 'checked': False}, {'id': 169, 'task_description': '1', 'checked': False}, {'id': 170, 'task_description': '1', 'checked': False}, {'id': 207, 'task_description': '1', 'checked': False}, {'id': 208, 'task_description': '1', 'checked': False}]
+INFO:root:Response ready: <Response 1196 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "GET /get_tasks?sectionId=13 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 14
+INFO:root:Got 13 tasks
+INFO:root:Tasks data: [{'id': 171, 'task_description': '2', 'checked': False}, {'id': 172, 'task_description': '2', 'checked': False}, {'id': 173, 'task_description': '2', 'checked': False}, {'id': 174, 'task_description': '2', 'checked': False}, {'id': 175, 'task_description': '2', 'checked': False}, {'id': 176, 'task_description': '2', 'checked': False}, {'id': 177, 'task_description': '2', 'checked': False}, {'id': 178, 'task_description': '2', 'checked': False}, {'id': 179, 'task_description': '2', 'checked': False}, {'id': 180, 'task_description': '2', 'checked': False}, {'id': 181, 'task_description': '2', 'checked': False}, {'id': 182, 'task_description': '2', 'checked': False}, {'id': 209, 'task_description': '2', 'checked': False}]
+INFO:root:Response ready: <Response 1112 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "GET /get_tasks?sectionId=14 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 15
+INFO:root:Got 12 tasks
+INFO:root:Tasks data: [{'id': 183, 'task_description': '3', 'checked': False}, {'id': 184, 'task_description': '3', 'checked': False}, {'id': 185, 'task_description': '3', 'checked': False}, {'id': 186, 'task_description': '3', 'checked': False}, {'id': 187, 'task_description': '3', 'checked': False}, {'id': 188, 'task_description': '3', 'checked': False}, {'id': 189, 'task_description': '3', 'checked': False}, {'id': 190, 'task_description': '3', 'checked': False}, {'id': 191, 'task_description': '3', 'checked': False}, {'id': 192, 'task_description': '3', 'checked': False}, {'id': 193, 'task_description': '3', 'checked': False}, {'id': 194, 'task_description': '3', 'checked': False}]
+INFO:root:Response ready: <Response 1028 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "GET /get_tasks?sectionId=15 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 16
+INFO:root:Got 12 tasks
+INFO:root:Tasks data: [{'id': 195, 'task_description': '4', 'checked': False}, {'id': 196, 'task_description': '4', 'checked': False}, {'id': 197, 'task_description': '4', 'checked': False}, {'id': 198, 'task_description': '4', 'checked': False}, {'id': 199, 'task_description': '4', 'checked': False}, {'id': 200, 'task_description': '4', 'checked': False}, {'id': 201, 'task_description': '4', 'checked': False}, {'id': 202, 'task_description': '4', 'checked': False}, {'id': 203, 'task_description': '4', 'checked': False}, {'id': 204, 'task_description': '4', 'checked': False}, {'id': 205, 'task_description': '4', 'checked': False}, {'id': 206, 'task_description': '4', 'checked': False}]
+INFO:root:Response ready: <Response 1028 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "GET /get_tasks?sectionId=16 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 17
+INFO:root:Got 3 tasks
+INFO:root:Tasks data: [{'id': 210, 'task_description': '5', 'checked': False}, {'id': 211, 'task_description': '5', 'checked': False}, {'id': 212, 'task_description': '5', 'checked': False}]
+INFO:root:Response ready: <Response 272 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2024 15:40:01] "GET /get_tasks?sectionId=17 HTTP/1.1" 200 -

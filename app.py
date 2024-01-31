@@ -11,10 +11,14 @@ from flask import (
 from src.db.models import Users, Section, Tasks
 from src.db.connect import Session, first_db_connect
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 import smtplib
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import os
+import logging
+
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -370,7 +374,9 @@ def get_sections():
         user = db_session.query(Users).filter_by(email=user_email).first()
         if user:
             sections = db_session.query(Section).filter_by(user=user).order_by(Section.id).all()
-            sections_json = [{"id": section.id, "name_of_section": section.name_of_section} for section in sections]
+            sections_json = [{
+                "id": section.id,
+                "name_of_section": section.name_of_section} for section in sections]
             return jsonify(sections_json)
         else:
             return jsonify({"status": "error", "message": "User not found"})
@@ -379,22 +385,35 @@ def get_sections():
 
 # ----------------------------------------------------------------------------------------------------
 
+logging.basicConfig(filename='app.log', level=logging.INFO)
+
 # !Маршрут для получения списка задач для указанной секции
 @app.route('/get_tasks')
 def get_tasks():
     try:
         section_id = request.args.get('sectionId')
-        tasks = db_session.query(Tasks).filter_by(section_id=section_id).order_by(Tasks.id).all()
+        logging.info(f"Getting tasks for section_id: {section_id}")
+        try:
+            tasks = db_session.query(Tasks).filter_by(section_id=section_id).order_by(Tasks.id).all()
+        except Exception as e:
+            logging.error(f"Database error: {str(e)}")
+            raise
+        logging.info(f"Got {len(tasks)} tasks")
         tasks_json = [
             {
                 "id": task.id,
-                "task_description": task.task_description if task.task_description else '',  # Добавьте проверку на None
+                "task_description": task.task_description,  # Добавьте проверку на None
                 "checked": task.checked
             } for task in tasks
         ]
-        return jsonify({"tasks": tasks_json})
+        logging.info(f"Tasks data: {tasks_json}")
+        response = jsonify({"tasks": tasks_json})
+        logging.info(f"Response ready: {response}")
+        return response
     except Exception as e:
+        logging.error(f"An error occurred: {str(e)}")
         return jsonify({"status": "error", "message": str(e)})
+
 
 # ----------------------------------------------------------------------------------------------------
 
