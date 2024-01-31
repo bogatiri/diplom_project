@@ -8,7 +8,7 @@ services:
         env_file:
             - environment/.env.postgres
         ports:
-            - "5432:5432"
+            - "5423:5423"
 
     postgres_web_diplom:
             depends_on:
