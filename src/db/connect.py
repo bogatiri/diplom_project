@@ -5,17 +5,17 @@ from sqlalchemy.orm import sessionmaker
 from src.db.models import Base
 import time
 # Устанавливаем соединение с базой данных
-USER = "USER"
+""" USER = "USER"
 PASSWORD = "PASSWORD"
-BASE_NAME = "MAIN"
+BASE_NAME = "MAIN" """
 
-""" USER = os.getenv("POSTGRES_USER")
+USER = os.getenv("POSTGRES_USER")
 PASSWORD = os.getenv("POSTGRES_PASSWORD")
-BASE_NAME = os.getenv("POSTGRES_DB") """
+BASE_NAME = os.getenv("POSTGRES_DB")
 
 DRIVER = 'postgresql+psycopg2'
 HOST = 'localhost'
-PORT = '5432'
+PORT = '5433'
 
 DB_URL = f'{DRIVER}://{USER}:{PASSWORD}@{HOST}:{PORT}/{BASE_NAME}'
 Engine = create_engine(DB_URL)
