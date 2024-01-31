@@ -36,7 +36,7 @@ app.secret_key = "qeasdqwe"
 def shutdown_session(exception=None):
     db_session.close()
 
-message="KYDA MI LEZEM!"
+message="zdarova pidor!"
 
 @app.route("/send_mail", methods=["POST", "GET"])  #!Отправка письма
 def send_email(recipient):
@@ -72,8 +72,8 @@ def register_form():
             and 3 <= len(surname) <= 50
             and 3 <= len(email) <= 50
             and 3 <= len(password) <= 50
-            and 1 <= len(organization) <= 50
-            and 3 <= len(qualification) <= 50
+            # and 1 <= len(organization) <= 50
+            # and 3 <= len(qualification) <= 50
         ):
             return "Недопустимые длины полей"
         hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
@@ -433,4 +433,4 @@ def logout():
 # ----------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(debug=True, port=4999)
+    app.run(debug=True)
