@@ -33,6 +33,8 @@ app.config['AVATARS_FOLDER'] = 'static/avatars'
 
 app.secret_key = "qeasdqwe"
 
+def str2bool(v):
+    return v.lower() in ("yes", "true", "t", "1")
 
 
 # ----------------------------------------------------------------------------------------------------
@@ -327,6 +329,7 @@ def update_task():
         if request.method == 'POST':
             task_id = request.form.get('task_id')
             task_description = request.form.get('task_description')
+            task_checked = str2bool(request.form.get('task_checked'))  # Получаем новое значение checked
             user_email = request.cookies.get('user')
             
             user = db_session.query(Users).filter_by(email=user_email).first()
@@ -335,8 +338,9 @@ def update_task():
                 if not task:
                     return jsonify({"status": "error", "message": "Task not found"})
                 task.task_description = task_description
+                task.checked = task_checked  # Обновляем значение checked
                 db_session.commit()
-                return jsonify({"status": "success", "task_id": task.id, "task_description": task.task_description})
+                return jsonify({"status": "success", "task_id": task.id, "task_description": task.task_description, "task_checked": task.checked})
             else:
                 return jsonify({"status": "error", "message": "User not found"})
     except Exception as e:

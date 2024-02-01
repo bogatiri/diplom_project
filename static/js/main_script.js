@@ -182,10 +182,10 @@ function saveTaskToServer(taskDescription, liTag) { // !Функция для с
 }
 
 
-function updateTaskOnServer(taskId, taskDescription) { // !Функция для обновления значения задачи в базе
+function updateTaskOnServer(taskId, taskDescription, checked) { // !Функция для обновления значения задачи в базе
   fetch("/update_task", {
     method: "POST",
-    body: new URLSearchParams({ task_id: taskId, task_description: taskDescription }),
+    body: new URLSearchParams({ task_id: taskId, task_description: taskDescription, task_checked: checked}),
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -242,11 +242,12 @@ async function loadSections() { // !Функция, которая подгру�
   button.textContent = "Add Task";
   button.id = section.id;
   button.addEventListener("click", () => { // !Функция для добавления задач в подгруженных секциях
+      let taskId = Math.random().toString(36);
       let liTag = document.createElement("li");
       liTag.classList.add("list");
       let checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      let taskId = Math.random().toString(36);
+      checkbox.id = `checkbox-task-${taskId}`;
       checkbox.id = `checkbox-task-${taskId}`;
       let inputTask = document.createElement("div");
       inputTask.classList.add("input-task");
@@ -283,7 +284,7 @@ async function loadSections() { // !Функция, которая подгру�
         textarea.style.height = textarea.scrollHeight + "px";
         liTag.style.minHeight = textarea.scrollHeight + "px";
       });
-      textarea.addEventListener('blur', function () { // !Функция которая при расфокусе с объекта либо удаляет задачу, либо обновляет ее значение, хз зачем удаляет
+      textarea.addEventListener('blur', function () { // !Функция которая при расфокусе с объекта либо удаляет задачу, либо обновляет ее значение, хз зачем удаляет, надо поменять на инпут вместо блюра
         let taskDescription = textarea.value;
         var taskId = liTag.getAttribute('data-task-id');
         if (taskId) {
@@ -296,7 +297,13 @@ async function loadSections() { // !Функция, которая подгру�
         } else {
             console.error("taskId is undefined");
         } 
-      }); 
+      });
+      checkbox.addEventListener("input", function () {
+        var taskId = liTag.getAttribute('data-task-id');
+        let taskDescription = textarea.value;
+        let checked = checkbox.checked;
+        updateTaskOnServer(taskId, taskDescription, checked);
+      });
     });
     listbtn.appendChild(button);
     let link2 = document.createElement("a");
@@ -336,9 +343,7 @@ async function loadSections() { // !Функция, которая подгру�
 
 async function loadTasks(sectionId) { // !Функция которая подгружает задачи при обновлении страницы(Вызывается внутри функции загрузки секций)
   const response = await fetch(`/get_tasks?sectionId=${sectionId}`);
-  console.log('Получен ответ от сервера');
   const data = await response.json();
-  console.log(`Получено ${data.tasks.length} задач`);
   for (const task of data.tasks) {
     let liTag = document.createElement("li");
     liTag.classList.add("list");
@@ -346,6 +351,16 @@ async function loadTasks(sectionId) { // !Функция которая подг
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = `checkbox-task-${task.id}`;
+    if (task.checked === true) {
+      checkbox.checked = true;
+    }
+    else {
+      checkbox.checked = false;
+    }
+    checkbox.addEventListener("input", function () {
+      let checked = checkbox.checked;
+      updateTaskOnServer(task.id, task.task_description, checked);
+    });
     let inputTask = document.createElement("div");
     inputTask.classList.add("input-task");
     let textarea = document.createElement("textarea");
@@ -440,7 +455,6 @@ addSectionButtons.addEventListener("click", function() {  // !Функция д�
     checkbox.type = "checkbox";
     let taskId = Math.random().toString(36);
     checkbox.id = `checkbox-task-${taskId}`;
-
     let inputTask = document.createElement("div");
     inputTask.classList.add("input-task");
 
@@ -499,6 +513,11 @@ addSectionButtons.addEventListener("click", function() {  // !Функция д�
       } else {
           console.error("taskId is undefined");
       } 
+    });
+    checkbox.addEventListener("input", function () {
+      var taskId = liTag.getAttribute('data-task-id');
+      let checked = checkbox.checked;
+      updateTaskOnServer(taskId, taskDescription, checked);
     }); 
   });
   
@@ -534,6 +553,7 @@ addSectionButtons.addEventListener("click", function() {  // !Функция д�
         handleBlur(sectionName, sectionId);  
     } 
   }); 
+  
 });
 
 
