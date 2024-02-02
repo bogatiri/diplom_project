@@ -375,7 +375,7 @@ def update_task():
             task_description = request.form.get("task_description")
             task_checked = str2bool(
                 request.form.get("task_checked")
-            )  # Получаем новое значение checked
+            )  
             user_email = request.cookies.get("user")
 
             user = db_session.query(Users).filter_by(email=user_email).first()
@@ -384,7 +384,7 @@ def update_task():
                 if not task:
                     return jsonify({"status": "error", "message": "Task not found"})
                 task.task_description = task_description
-                task.checked = task_checked  # Обновляем значение checked
+                task.checked = task_checked  
                 db_session.commit()
                 return jsonify(
                     {
