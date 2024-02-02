@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Diplom</title>  
+    <title>My Diplom</title>
     <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/style_main.css') }}"
-  />
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style_main.css') }}"
+    />
   </head>
 
   <body class="{{ user_data.user_theme }}">
@@ -77,7 +77,9 @@
           </span>
           <div class="text header-text">
             <a href="#popup">
-              <span class="name">{{user_data.user_name}} {{user_data.user_surname}} </span><br />
+              <span class="name"
+                >{{user_data.user_name}} {{user_data.user_surname}} </span
+              ><br />
               <span class="proffesion">{{user_data.user_qualification}}</span>
             </a>
           </div>
@@ -139,15 +141,14 @@
         </div>
       </div>
     </nav>
-    <section class="home" id="home">
-      
+    <section class="home board" id="home">
       <!-- здесь находятся секции home_container-->
 
-        <div class="add_section">
+      <div class="add_section">
         <button class="add-section">Добавить секцию</button>
-        </div>
+      </div>
     </section>
-    
+
     <section class="home_1" id="home_1">
       <div class="text">Сайт для GTA-5</div>
     </section>
@@ -155,10 +156,13 @@
       <a href="#header" class="popup__area"></a>
       <div class="popup__body">
         <div class="popup__content">
-          <p class="popup_text">Profile Settings<p>
-          <a href="#header" class="popup__close"
-            ><i class="fa-solid fa-xmark icon"></i
-          ></a>
+          <p class="popup_text">Profile Settings</p>
+          <p>
+            <a href="#header" class="popup__close"
+              ><i class="fa-solid fa-xmark icon"></i
+            ></a>
+          </p>
+
           <div class="popup__title">Choose Your Avatar</div>
           <form
             id="upload-form"
@@ -259,10 +263,30 @@
       </div>
     </div>
     <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  />
-  <script defer type="module" src="{{ url_for('static', filename='js/main_script.js') }}"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script
+      defer
+      type="module"
+      src="{{ url_for('static', filename='js/main_script.js') }}"
+    ></script>
+<!--     <script
+      defer
+      type="module"
+      src="{{ url_for('static', filename='js/dnd.js') }}"
+    ></script>
+    <script
+      defer
+      type="module"
+      src="{{ url_for('static', filename='js/dnd-tasks.js') }}"
+    ></script>      
+    <script
+      defer
+      type="module"
+      src="{{ url_for('static', filename='js/dnd-columns.js') }}"
+    ></script> -->
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   </body>
 </html>

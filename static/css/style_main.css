@@ -796,7 +796,76 @@ body.dark .popup button:hover {
   height: 40px;
   width: 100%;
   margin-bottom: 5px;
+  /* user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none; */
 }
+
+.todoList .board-item{
+  cursor: pointer;
+}
+
+.placeholder{
+  display: flex;
+  height: 40px;
+  align-items: center;
+  list-style: none;
+  width: 300px;
+  background-color: var(--sidebar-color);
+  padding: 5px 0px 0px 5px;
+  border-radius: 8px;
+  position: relative;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+
+
+.emptySectionHiddenLesson{
+  background: none;
+  border: none;
+  width: 180px;
+  height: 40px;
+}
+
+.placeholder-column{
+  background-color: white;
+  border: 1px solid var(--primary-color-light);
+  width: 200px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.todoList .list .board-item-content{
+  user-select: none;
+  -moz-user-select: none; 
+  -webkit-user-select: none;  
+  -ms-user-select: none;
+  pointer-events: none;
+}
+
+.board-column-header{
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  cursor: pointer;
+}
+
+.dragged {
+  opacity: 0.7; /* Придаем элементу прозрачность во время перетаскивания */
+  border: 2px dashed #333; /* Добавляем пунктирную рамку */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Добавляем тень */
+}
+
+.placeholder {
+  background-color: #f0f0f0; /* Цвет фона плейсхолдера */
+  border: 2px dashed #aaa; /* Стиль границы плейсхолдера */
+  box-sizing: border-box; /* Учтите границу в размерах элемента */
+  height: 30px; /* Высота плейсхолдера, можете изменить по своему усмотрению */
+}
+
 
 .input-field textarea{
   color: var(--text-color);
@@ -812,6 +881,8 @@ body.dark .popup button:hover {
   resize: none;
   cursor: pointer;
   overflow: hidden;
+  /* pointer-events: none; */
+
 }
 
 .input-field textarea:hover{
@@ -883,7 +954,6 @@ body.dark .input-field .note-icon:hover{
   padding: 5px 0px 0px 5px;
   border-radius: 8px;
   position: relative;
-  cursor: pointer;
   margin-top: 5px;
   margin-right: 5px;
 }
@@ -960,7 +1030,7 @@ body.dark .input-field .note-icon:hover{
   background-color: var(--sidebar-color);
   border-radius: 8px;
   padding: 6px 12px;
-  cursor: pointer;
+
   font-size: 14px;
 }
 
@@ -1029,7 +1099,7 @@ body.dark .input-field .note-icon:hover{
   resize: none;
   overflow: hidden;
   border: 0px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .input-task textarea:hover{
