@@ -87,15 +87,17 @@ searchBtn.addEventListener("click", () => {
 
 modeSwitch.addEventListener("click", () => {
   // !Смена темы
-  const currentTheme = body.classList.contains("dark") ? "light" : "dark";
   body.classList.toggle("dark");
+  const currentTheme = body.classList.contains("dark") ? "dark" : "light";
   if (body.classList.contains("dark")) {
     modeText.innerText = "Light Mode";
   } else {
     modeText.innerText = "Dark Mode";
   }
-  saveThemeToServer(currentTheme);
+  const colorTheme = (currentTheme === "light") ? 0 : 1
+  saveThemeToServer(colorTheme);
 });
+
 
 document.getElementById("avatar").addEventListener("change", function () {
   document.getElementById("upload-form").submit();
@@ -220,61 +222,76 @@ async function loadSections() {
     let homeContainer = document.createElement("div");
     homeContainer.className = "home_container board"; //?
     homeContainer.setAttribute("data-section-id", section.id);
-    // homeContainer.setAttribute("id", section.id);
     homeContainer.draggable = "true";
+
     let inputField = document.createElement("div");
     inputField.className = " input-field";
     inputField.classList.add("board-column-header");
+
     let textarea = document.createElement("textarea");
     textarea.name = "section-name";
     textarea.id = section.id;
     textarea.placeholder = "Print your title here";
     textarea.value = section.name_of_section;
     inputField.appendChild(textarea);
+
     let link = document.createElement("a");
     link.href = "#";
+
     let icon = document.createElement("i");
     icon.className = "fa-solid fa-ellipsis note-icon";
     link.appendChild(icon);
     inputField.appendChild(link);
     homeContainer.appendChild(inputField);
+
     let todoList = document.createElement("div");
     todoList.className = "todoList";
     todoList.classList.add("board-column-content-wrapper");
     todoList.id = section.id;
     homeContainer.appendChild(todoList);
+
     let listbtn = document.createElement("div");
     listbtn.className = "listbtn";
     listbtn.id = section.id;
+
     let plusIcon = document.createElement("i");
     plusIcon.className = "fa-solid fa-plus addTask";
     plusIcon.id = section.id;
     listbtn.appendChild(plusIcon);
+
     let button = document.createElement("button");
     button.className = "add-task";
     button.textContent = "Add Task";
     button.id = section.id;
+
     button.addEventListener("click", () => {
       // !Функция для добавления задач в подгруженных секциях
       let taskId = Math.random().toString(36);
       let liTag = document.createElement("div");
       liTag.classList.add("list"); //?
       liTag.classList.add("board-item");
+      liTag.draggable = "true";
+
       let checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.id = `checkbox-task-${taskId}`;
       checkbox.id = `checkbox-task-${taskId}`;
+
       let inputTask = document.createElement("div");
       inputTask.classList.add("input-task");
+
       let textarea = document.createElement("textarea");
       textarea.classList.add("written-task");
       textarea.id = `textarea-task-${taskId}`;
       textarea.placeholder = "Write Your Task";
+
       textarea.onkeydown = function (event) {
         return event.key !== "Enter";
       };
+
       let trashIcon = document.createElement("i");
       trashIcon.classList.add("fa-solid", "fa-trash");
+
       trashIcon.onclick = function (event) {
         // !Функция удаления задачи по клику на иконку, надо добавить подтверждение на самом деле
         taskId = liTag.getAttribute("data-task-id");
@@ -283,13 +300,17 @@ async function loadSections() {
       let sectionId = button.id;
       liTag.setAttribute("data-section-id", sectionId);
       liTag.setAttribute("data-task-id", taskId);
+
       inputTask.appendChild(textarea);
       liTag.appendChild(checkbox);
       liTag.appendChild(inputTask);
       liTag.appendChild(trashIcon);
+
       let taskDescription = textarea.value;
       saveTaskToServer(taskDescription, liTag);
+
       todoList.appendChild(liTag);
+
       textarea.addEventListener("focus", function () {
         // !Функция которая должна что-то делать при фокусе, но нихуя не делает
         var liTag = this.closest("div");
@@ -302,6 +323,14 @@ async function loadSections() {
         textarea.style.height = textarea.scrollHeight + "px";
         liTag.style.minHeight = textarea.scrollHeight + "px";
       });
+
+      textarea.addEventListener("keydown", function (event) {
+        // !Функция, которая при нажатии ентер убирает фокус с textarea
+        if (event.key == "Enter") {
+          textarea.blur();
+        }
+      });
+
       textarea.addEventListener("blur", function () {
         // !Функция которая при расфокусе с объекта либо удаляет задачу, либо обновляет ее значение, хз зачем удаляет, надо поменять на инпут вместо блюра
         let taskDescription = textarea.value;
@@ -317,20 +346,13 @@ async function loadSections() {
           console.error("taskId is undefined");
         }
       });
+
       checkbox.addEventListener("input", function () {
         var taskId = liTag.getAttribute("data-task-id");
         let taskDescription = textarea.value;
         let checked = checkbox.checked;
         updateTaskOnServer(taskId, taskDescription, checked);
       });
-
-      liTag.addEventListener("drop", function (event) {
-        event.preventDefault();
-        const data = event.dataTransfer.getData("text/plain");
-        const draggedElement = document.getElementById(data);
-        this.appendChild(draggedElement);
-      });
-      liTag.setAttribute("draggable", "true");
     });
 
     listbtn.appendChild(button);
@@ -354,19 +376,25 @@ async function loadSections() {
     let addSectionButtons = document.querySelector(".add_section");
     let parent = document.querySelector(".home");
     parent.insertBefore(homeContainer, addSectionButtons);
-    textarea.addEventListener("blur", function () {
-      // !Функция которая при потере фокуса либо удаляет секцию, либо обновляет ее название, хз зачем удаляет опять-же
-      let sectionName = textarea.value;
-      if (section.id) {
-        if (sectionName.trim() === "") {
-          homeContainer.remove();
-        } else {
-          let sectionName = textarea.value;
-          let sectionId = section.id;
-          handleBlur(sectionName, sectionId);
+    textarea.addEventListener("blur", async () => {
+        // !Функция которая при потере фокуса либо удаляет секцию, либо обновляет ее название, хз зачем удаляет опять-же
+        let sectionName = textarea.value;
+        if (section.id) {
+          if (sectionName.trim() === "") {
+            homeContainer.remove();
+          } else {
+            let sectionName = textarea.value;
+            let sectionId = section.id;
+            await handleBlur(sectionName, sectionId);
+          }
         }
-      }
-    });
+      });
+      icon.addEventListener("click", function () {
+        // let sectionId = homeContainer.getAttribute("data-section-id");
+        removeSectionFromServer(section.id);
+        homeContainer.remove();    
+      })
+
     await loadTasks(section.id);
   }
 }
@@ -381,6 +409,7 @@ async function loadTasks(sectionId) {
     liTag.classList.add("board-item");
     liTag.setAttribute("data-task-id", task.id);
     liTag.draggable = "true";
+    liTag.id = `task-${task.id}`;
 
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -406,20 +435,86 @@ async function loadTasks(sectionId) {
     liTag.appendChild(checkbox);
     liTag.appendChild(inputTask);
     inputTask.appendChild(textarea);
-    liTag.appendChild(trashIcon);
+
+    // Добавляем обработчики событий для перемещения задач
+    liTag.addEventListener("dragstart", function (event) {
+      event.dataTransfer.setData("text/plain", this.id);
+      setTimeout(() => {
+        this.style.display = "none";
+      }, 0);
+    });
+
+    liTag.addEventListener("dragenter", function (event) {
+      event.preventDefault();
+    });
+
+    liTag.addEventListener("dragleave", function (event) {
+      event.preventDefault();
+      const parent = this.parentNode;
+
+      const placeholder = parent.querySelector(".placeholder");
+      if (placeholder) {
+        placeholder.remove();
+      }
+    });
+
+    liTag.addEventListener("dragover", function (event) {
+      event.preventDefault();
+      const draggedElement = document.querySelector(".dragging");
+      const parent = this.parentNode;
+
+      const placeholder = document.createElement("div");
+      placeholder.classList.add("placeholder");
+      if (draggedElement !== this) {
+        const existingPlaceholder = parent.querySelector(".placeholder");
+        if (existingPlaceholder) {
+          existingPlaceholder.remove();
+        }
+        parent.insertBefore(placeholder, this);
+      }
+    });
+
+    liTag.addEventListener("drop", function (event) {
+      event.preventDefault();
+      const data = event.dataTransfer.getData("text/plain");
+      const draggedElement = document.getElementById(data);
+      const parent = this.parentNode;
+      const placeholder = parent.querySelector(".placeholder");
+      if (placeholder) {
+        placeholder.remove();
+      }
+      if (draggedElement !== this) {
+        parent.insertBefore(draggedElement, this);
+        this.style.display = "flex";
+      }
+    });
+
+    liTag.addEventListener("dragend", function () {
+      this.style.display = "flex";
+    });
+
     document.body.appendChild(liTag);
     let todoList = document.querySelector(`div[id="${sectionId}"]`);
-    todoList.appendChild(liTag);
+    todoList.appendChild(liTag); 
     liTag.appendChild(trashIcon);
     textarea.addEventListener("input", function () {
       textarea.style.height = textarea.scrollHeight + "px";
       liTag.style.minHeight = textarea.scrollHeight + "px";
     });
+
     if (task.checked === true) {
       checkbox.checked = true;
     } else {
       checkbox.checked = false;
     }
+
+    textarea.addEventListener("keydown", function (event) {
+      // !Функция, которая при нажатии ентер убирает фокус с textarea
+      if (event.key == "Enter") {
+        textarea.blur();
+      }
+    });
+
     textarea.addEventListener("blur", function () {
       let taskDescription = textarea.value;
       var taskId = liTag.getAttribute("data-task-id");
@@ -435,11 +530,14 @@ async function loadTasks(sectionId) {
         console.error("taskId is undefined");
       }
     });
+
     var scrollHeight = textarea.scrollHeight;
     textarea.style.height = scrollHeight + "px";
     liTag.style.minHeight = scrollHeight + "px";
   }
 }
+
+
 
 addSectionButtons.addEventListener("click", function () {
   // !Функция добавления новой секции(Все внутренние функции аналогичны тем, что были выше)
@@ -447,8 +545,8 @@ addSectionButtons.addEventListener("click", function () {
   let homeContainer = document.createElement("div");
   homeContainer.className = "home_container";
   homeContainer.draggable = "true";
-
   homeContainer.setAttribute("data-section-id", sectionId);
+
   let inputField = document.createElement("div");
   inputField.className = "board-column-header input-field"; //!
 
@@ -456,6 +554,12 @@ addSectionButtons.addEventListener("click", function () {
   textarea.name = "section-name";
   textarea.id = sectionId;
   textarea.placeholder = "Print your title here";
+  textarea.addEventListener("keydown", function (event) {
+    // !Функция, которая при нажатии ентер убирает фокус с textarea
+    if (event.key == "Enter") {
+      textarea.blur();
+    }
+  });
   inputField.appendChild(textarea);
 
   let link = document.createElement("a");
@@ -485,14 +589,31 @@ addSectionButtons.addEventListener("click", function () {
   let sectionName = Math.random().toString(36);
   saveSectionToServer(sectionName, homeContainer);
 
+  listbtn.appendChild(button);
+  let link2 = document.createElement("a");
+  link2.href = "#";
+
+  let ticketIcon = document.createElement("i");
+  ticketIcon.className = "fa-solid fa-ticket note-iconbtn";
+  link2.appendChild(ticketIcon);
+
+  listbtn.appendChild(link2);
+  homeContainer.appendChild(listbtn);
+  let addSectionButtons = document.querySelector(".add_section");
+  let parent = document.querySelector(".home");
+  parent.insertBefore(homeContainer, addSectionButtons);
+
   button.addEventListener("click", () => {
+    let taskId = Math.random().toString(36);
     let liTag = document.createElement("div");
     liTag.classList.add("list"); //!
     liTag.classList.add("board-item-content");
+    liTag.draggable = "true";
+
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    let taskId = Math.random().toString(36);
     checkbox.id = `checkbox-task-${taskId}`;
+
     let inputTask = document.createElement("div");
     inputTask.classList.add("input-task");
 
@@ -523,10 +644,6 @@ addSectionButtons.addEventListener("click", function () {
     saveTaskToServer(taskDescription, liTag);
     todoList.appendChild(liTag);
 
-    liTag.addEventListener("click", function () {
-      let taskId = liTag.getAttribute("data-task-id");
-    });
-
     textarea.addEventListener("focus", function () {
       var liTag = this.closest("div");
       taskId = liTag.getAttribute("data-task-id");
@@ -536,6 +653,13 @@ addSectionButtons.addEventListener("click", function () {
     textarea.addEventListener("input", function () {
       textarea.style.height = textarea.scrollHeight + "px";
       liTag.style.minHeight = textarea.scrollHeight + "px";
+    });
+
+    textarea.addEventListener("keydown", function (event) {
+      // !Функция, которая при нажатии ентер убирает фокус с textarea
+      if (event.key == "Enter") {
+        textarea.blur();
+      }
     });
 
     textarea.addEventListener("blur", function () {
@@ -552,6 +676,7 @@ addSectionButtons.addEventListener("click", function () {
         console.error("taskId is undefined");
       }
     });
+
     checkbox.addEventListener("input", function () {
       var taskId = liTag.getAttribute("data-task-id");
       let checked = checkbox.checked;
@@ -560,25 +685,11 @@ addSectionButtons.addEventListener("click", function () {
     });
   });
 
-  listbtn.appendChild(button);
-  let link2 = document.createElement("a");
-  link2.href = "#";
-
-  let ticketIcon = document.createElement("i");
-  ticketIcon.className = "fa-solid fa-ticket note-iconbtn";
-  link2.appendChild(ticketIcon);
-
   textarea.addEventListener("keydown", function (event) {
     if (event.key == "Enter") {
       textarea.blur();
     }
   });
-
-  listbtn.appendChild(link2);
-  homeContainer.appendChild(listbtn);
-  let addSectionButtons = document.querySelector(".add_section");
-  let parent = document.querySelector(".home");
-  parent.insertBefore(homeContainer, addSectionButtons);
 
   textarea.focus();
   textarea.addEventListener("blur", function () {
@@ -591,6 +702,12 @@ addSectionButtons.addEventListener("click", function () {
       handleBlur(sectionName, sectionId);
     }
   });
+
+  icon.addEventListener("click", function () {
+    let sectionId = homeContainer.getAttribute("data-section-id");
+    removeSectionFromServer(sectionId);
+    homeContainer.remove();    
+  })
 });
 
 function saveSectionToServer(sectionName, homeContainer) {
@@ -623,15 +740,45 @@ function saveSectionToServer(sectionName, homeContainer) {
     });
 }
 
-function handleBlur(sectionName, sectionId) {
-  // !Функция для обновления названия темы в базу, хз почему аякс запрос, чатжпт такую дал, еблан
-  $.ajax({
-    type: "POST",
-    url: "/save_name_of_section",
-    data: { text: sectionName, section_id: sectionId },
-    success: function () {},
-    error: function (error) {
-      console.error("Ошибка при сохранении изменений:", error);
+function removeSectionFromServer(SectionId){
+  fetch("/remove_section", {
+    method: "POST",
+    body: new URLSearchParams({
+      section_id: SectionId
+    }),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-  });
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
+      } else {
+        console.error("Ошибка при удалении секции:", data.message);
+      }
+    })
+    .catch((error) => {
+      console.error("Ошибка при удалении секции:", error);
+    });
+}
+
+
+async function handleBlur(sectionName, sectionId) {
+  try {
+    const response = await fetch('/save_name_of_section', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text: sectionName,
+        section_id: sectionId
+      })
+    });
+    if (!response.ok) {
+      throw new Error(`Ошибка при сохранении изменений: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }

@@ -806,20 +806,11 @@ body.dark .popup button:hover {
   cursor: pointer;
 }
 
-.placeholder{
-  display: flex;
-  height: 40px;
-  align-items: center;
-  list-style: none;
-  width: 300px;
-  background-color: var(--sidebar-color);
-  padding: 5px 0px 0px 5px;
-  border-radius: 8px;
-  position: relative;
-  margin-top: 5px;
-  margin-right: 5px;
-}
 
+
+.list.dragged {
+  opacity: 0.5; /* Прозрачность перемещаемого элемента */
+}
 
 
 .emptySectionHiddenLesson{
@@ -829,13 +820,13 @@ body.dark .popup button:hover {
   height: 40px;
 }
 
-.placeholder-column{
+/* .placeholder-column{
   background-color: white;
   border: 1px solid var(--primary-color-light);
   width: 200px;
   margin: 10px;
   padding: 10px;
-}
+} */
 
 .todoList .list .board-item-content{
   user-select: none;
@@ -860,11 +851,20 @@ body.dark .popup button:hover {
 }
 
 .placeholder {
-  background-color: #f0f0f0; /* Цвет фона плейсхолдера */
-  border: 2px dashed #aaa; /* Стиль границы плейсхолдера */
-  box-sizing: border-box; /* Учтите границу в размерах элемента */
-  height: 30px; /* Высота плейсхолдера, можете изменить по своему усмотрению */
+   /* Цвет фона плейсхолдера */
+  border: 2px solid #aaa; /* Стиль границы плейсхолдера */
+  box-sizing: border-box;
+  border-radius: 10px; /* Учтите границу в размерах элемента */
+  /* height: 30px; Высота плейсхолдера, можете изменить по своему усмотрен */
+  height: 1px;
+  width: 98%;
 }
+
+/* .placeholder-sections{
+  width: 300px;
+  background-color: red;
+  height: 800px;
+} */
 
 
 .input-field textarea{
@@ -967,6 +967,10 @@ body.dark .input-field .note-icon:hover{
   position: relative;
 }
 
+.list.drag-over {
+  border: 2px dashed #aaa; /* Цвет и стиль рамки для плейсхолдера */
+  border-radius: 4px; /* Скругление углов рамки */
+}
 
 
 .todoList .list i{
@@ -1073,7 +1077,7 @@ body.dark .input-field .note-icon:hover{
   transform: translateY(-50%);
   font-size: 15px;
   color: var(--color-icon);
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 
 .home_container .input-task{

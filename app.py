@@ -8,11 +8,10 @@ from flask import (
     session,
     jsonify,
 )
+from datetime import datetime
 from src.db.models import Users, Section, Tasks
 from src.db.connect import Session, first_db_connect
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 import smtplib
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
@@ -73,17 +72,13 @@ def register_form():
         surname = request.form.get("surname")
         email = request.form.get("email-reg")
         password = request.form.get("password-reg")
-        organization = request.form.get("organization-reg")
-        qualification = request.form.get("qualification")
         if not (
             2 <= len(name) <= 90
             and 3 <= len(surname) <= 50
             and 3 <= len(email) <= 50
             and 3 <= len(password) <= 50
-            # and 1 <= len(organization) <= 50
-            # and 3 <= len(qualification) <= 50
         ):
-            return "Недопустимые длины полей"
+            return ("Недопустимые длины полей")
         hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
         existing_user = db_session.query(Users).filter_by(email=email).first()
         if existing_user:
@@ -93,11 +88,9 @@ def register_form():
             surname=surname,
             email=email,
             password=hashed_password,
-            organization=organization,
-            qualification=qualification,
         )
-        recipient = email
-        send_email(recipient)
+        # recipient = email
+        # send_email(recipient)
         try:
             db_session.add(new_user)
             db_session.commit()
@@ -131,7 +124,6 @@ def get_user_data(email):
             "user_theme": user.theme,
             "user_name": user.name,
             "user_surname": user.surname,
-            "user_qualification": user.qualification,
             "user_about": user.about,
             "user_avatar": user.avatar,
             "sections": [],
@@ -275,8 +267,9 @@ def upload_avatar():
 @app.route("/save_name_of_section", methods=["POST"])
 def save_name_of_section():
     if request.method == "POST":
-        name_of_section = request.form.get("text")
-        section_id = request.form.get("section_id")
+        data = request.get_json()
+        name_of_section = data.get("text")
+        section_id = data.get("section_id")
         user_email = request.cookies.get("user")
 
         user = db_session.query(Users).filter_by(email=user_email).first()
@@ -287,11 +280,13 @@ def save_name_of_section():
             if section:
                 section.name_of_section = name_of_section
                 db_session.commit()
-                return "Success", 200
+                return {"message": "Success"}, 200
             else:
-                return "Section not found", 404
+                return {"message": "Section not found"}, 404
         else:
-            return "User not found", 404
+            return {"message": "User not found"}, 404
+
+
 
 
 # ----------------------------------------------------------------------------------------------------
@@ -348,13 +343,14 @@ def add_task():
         if request.method == "POST":
             task_description = request.form.get("task_description")
             section_id = request.form.get("section_id")
+            dateStart = datetime.now()
             user_email = request.cookies.get("user")
             user = db_session.query(Users).filter_by(email=user_email).first()
             if user:
                 section = db_session.query(Section).filter_by(id=section_id).first()
                 if not section:
                     return jsonify({"status": "error", "message": "Section not found"})
-                new_task = Tasks(task_description=task_description, section=section)
+                new_task = Tasks(task_description=task_description, section=section, DateStart=dateStart)
                 db_session.add(new_task)
                 db_session.commit()
                 return jsonify({"status": "success", "task_id": new_task.id})
@@ -478,7 +474,7 @@ def get_tasks():
         tasks_json = [
             {
                 "id": task.id,
-                "task_description": task.task_description,  # Добавьте проверку на None
+                "task_description": task.task_description,  
                 "checked": task.checked,
             }
             for task in tasks
@@ -489,6 +485,31 @@ def get_tasks():
         return response
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
+        return jsonify({"status": "error", "message": str(e)})
+
+
+# ----------------------------------------------------------------------------------------------------
+
+
+@app.route("/remove_section", methods=["POST"]) #!Удаление секции
+def remove_section():
+    try:
+        section_id = request.form.get("section_id")
+        user_email = request.cookies.get("user")
+
+        user = db_session.query(Users).filter_by(email=user_email).first()
+        if user:
+            section = db_session.query(Section).filter_by(id=section_id).first()
+            if not section:
+                return jsonify({"status": "error", "message": "Section not found"})
+            db_session.delete(section)
+            db_session.commit()
+            return jsonify(
+                {"status": "success", "message": "Section deleted successfully"}
+            )
+        else:
+            return jsonify({"status": "error", "message": "User not found"})
+    except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 
 
@@ -536,3 +557,5 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+

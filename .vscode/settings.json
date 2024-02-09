@@ -29,5 +29,6 @@
 	"docwriter.progress.trackTypes": true,
 	"docwriter.language": "Russian",
 	"docwriter.hotkey.mac": "⌘ + .",
-	"docwriter.style": "Auto-detect"
+	"docwriter.style": "Auto-detect",
+	"editor.tabSize": 2
 }
