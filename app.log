@@ -29327,3 +29327,591 @@ INFO:root:Got 5 tasks
 INFO:root:Tasks data: [{'id': 3, 'task_description': '12312', 'checked': False}, {'id': 4, 'task_description': '31', 'checked': False}, {'id': 6, 'task_description': '12', 'checked': False}, {'id': 8, 'task_description': '12', 'checked': False}, {'id': 9, 'task_description': '1231', 'checked': True}]
 INFO:root:Response ready: <Response 439 bytes [200 OK]>
 INFO:werkzeug:127.0.0.1 - - [09/Feb/2024 16:10:24] "GET /get_tasks?sectionId=2 HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 375-176-238
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 712-582-274
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:09:16] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:09:16] "[36mGET /static/css/style_login.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:09:16] "[36mGET /static/js/script.js?v=4 HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:09:18] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:09:55] "POST / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:09:56] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:04] "POST / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:04] "[36mGET /static/css/style_login.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:04] "[36mGET /static/js/script.js?v=4 HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:07] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:07] "GET /static/css/style_main.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:07] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:07] "GET /static/js/main_script.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:07] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 3
+INFO:root:Got 0 tasks
+INFO:root:Tasks data: []
+INFO:root:Response ready: <Response 18 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:07] "GET /get_tasks?sectionId=3 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:12] "POST /save_theme HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:12] "[36mGET /static/css/style_main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:14] "POST /add_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:16] "POST /save_name_of_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:16] "POST /add_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:16] "POST /save_name_of_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:16] "POST /add_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:16] "POST /save_name_of_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:17] "POST /add_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:17] "POST /save_name_of_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:17] "POST /add_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:18] "POST /save_name_of_section HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:19] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:20] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:20] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:20] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:20] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:20] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:20] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:21] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:21] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:21] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:21] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:21] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:21] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:22] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:23] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:23] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:23] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:23] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:23] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:24] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:24] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:24] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:24] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:25] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:25] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:25] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:25] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:25] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:25] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:26] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:26] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:26] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:27] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:28] "POST /delete_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:29] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:30] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:32] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:32] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:32] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:32] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:33] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:33] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:33] "POST /delete_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:34] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:34] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:34] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:34] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:34] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:35] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:35] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:36] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:36] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:36] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:36] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:36] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:36] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:37] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:37] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:37] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:38] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:38] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:38] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:38] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:38] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:39] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:39] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:39] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:39] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:40] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:40] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:40] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:40] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:40] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:40] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:41] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:41] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:41] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:41] "POST /add_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:42] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:45] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:46] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:47] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:47] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:49] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:50] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:51] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:51] "[36mGET /static/css/style_main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:51] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:51] "[36mGET /static/js/main_script.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:52] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 3
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 10, 'task_description': '1', 'checked': False}, {'id': 11, 'task_description': '1', 'checked': False}, {'id': 12, 'task_description': '1', 'checked': False}, {'id': 13, 'task_description': '1', 'checked': False}, {'id': 14, 'task_description': '1', 'checked': True}, {'id': 15, 'task_description': '1', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:52] "GET /get_tasks?sectionId=3 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 4
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 16, 'task_description': '2', 'checked': False}, {'id': 17, 'task_description': '2', 'checked': True}, {'id': 18, 'task_description': '2', 'checked': False}, {'id': 19, 'task_description': '2', 'checked': False}, {'id': 20, 'task_description': '2', 'checked': False}, {'id': 21, 'task_description': '2', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:52] "GET /get_tasks?sectionId=4 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 5
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 22, 'task_description': '3', 'checked': False}, {'id': 23, 'task_description': '3', 'checked': False}, {'id': 24, 'task_description': '3', 'checked': False}, {'id': 25, 'task_description': '3', 'checked': False}, {'id': 27, 'task_description': '3', 'checked': True}, {'id': 28, 'task_description': '3', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:52] "GET /get_tasks?sectionId=5 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 6
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 30, 'task_description': '4', 'checked': False}, {'id': 31, 'task_description': '4', 'checked': False}, {'id': 32, 'task_description': '4', 'checked': False}, {'id': 33, 'task_description': '4', 'checked': False}, {'id': 34, 'task_description': '4', 'checked': True}, {'id': 35, 'task_description': '4', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:52] "GET /get_tasks?sectionId=6 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 7
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 36, 'task_description': '5', 'checked': False}, {'id': 37, 'task_description': '5', 'checked': False}, {'id': 38, 'task_description': '5', 'checked': False}, {'id': 39, 'task_description': '5', 'checked': False}, {'id': 40, 'task_description': '5', 'checked': True}, {'id': 41, 'task_description': '5', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:52] "GET /get_tasks?sectionId=7 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 8
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 42, 'task_description': '6', 'checked': False}, {'id': 43, 'task_description': '6', 'checked': False}, {'id': 44, 'task_description': '6', 'checked': False}, {'id': 45, 'task_description': '6', 'checked': False}, {'id': 46, 'task_description': '6', 'checked': True}, {'id': 47, 'task_description': '6', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:52] "GET /get_tasks?sectionId=8 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:54] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:55] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:55] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "[36mGET /static/css/style_main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "[36mGET /static/js/main_script.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 3
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 10, 'task_description': '1', 'checked': True}, {'id': 11, 'task_description': '1', 'checked': True}, {'id': 12, 'task_description': '1', 'checked': True}, {'id': 13, 'task_description': '1', 'checked': False}, {'id': 14, 'task_description': '1', 'checked': True}, {'id': 15, 'task_description': '1', 'checked': False}]
+INFO:root:Response ready: <Response 514 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "GET /get_tasks?sectionId=3 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 4
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 16, 'task_description': '2', 'checked': False}, {'id': 17, 'task_description': '2', 'checked': True}, {'id': 18, 'task_description': '2', 'checked': False}, {'id': 19, 'task_description': '2', 'checked': False}, {'id': 20, 'task_description': '2', 'checked': False}, {'id': 21, 'task_description': '2', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "GET /get_tasks?sectionId=4 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 5
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 22, 'task_description': '3', 'checked': False}, {'id': 23, 'task_description': '3', 'checked': False}, {'id': 24, 'task_description': '3', 'checked': False}, {'id': 25, 'task_description': '3', 'checked': False}, {'id': 27, 'task_description': '3', 'checked': True}, {'id': 28, 'task_description': '3', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "GET /get_tasks?sectionId=5 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 6
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 30, 'task_description': '4', 'checked': False}, {'id': 31, 'task_description': '4', 'checked': False}, {'id': 32, 'task_description': '4', 'checked': False}, {'id': 33, 'task_description': '4', 'checked': False}, {'id': 34, 'task_description': '4', 'checked': True}, {'id': 35, 'task_description': '4', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "GET /get_tasks?sectionId=6 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 7
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 36, 'task_description': '5', 'checked': False}, {'id': 37, 'task_description': '5', 'checked': False}, {'id': 38, 'task_description': '5', 'checked': False}, {'id': 39, 'task_description': '5', 'checked': False}, {'id': 40, 'task_description': '5', 'checked': True}, {'id': 41, 'task_description': '5', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "GET /get_tasks?sectionId=7 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 8
+INFO:root:Got 6 tasks
+INFO:root:Tasks data: [{'id': 42, 'task_description': '6', 'checked': False}, {'id': 43, 'task_description': '6', 'checked': False}, {'id': 44, 'task_description': '6', 'checked': False}, {'id': 45, 'task_description': '6', 'checked': False}, {'id': 46, 'task_description': '6', 'checked': True}, {'id': 47, 'task_description': '6', 'checked': False}]
+INFO:root:Response ready: <Response 517 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:10:56] "GET /get_tasks?sectionId=8 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:02] "[32mGET /logout HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:02] "GET /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:02] "[36mGET /static/css/style_login.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:02] "[36mGET /static/js/script.js?v=4 HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:11] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:11] "[36mGET /static/css/style_main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:11] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:11] "[36mGET /static/js/main_script.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:11] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 1
+INFO:root:Got 4 tasks
+INFO:root:Tasks data: [{'id': 1, 'task_description': '123123', 'checked': False}, {'id': 2, 'task_description': '213123', 'checked': False}, {'id': 5, 'task_description': '31', 'checked': False}, {'id': 7, 'task_description': '12', 'checked': False}]
+INFO:root:Response ready: <Response 360 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:11] "GET /get_tasks?sectionId=1 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 2
+INFO:root:Got 5 tasks
+INFO:root:Tasks data: [{'id': 3, 'task_description': '12312', 'checked': False}, {'id': 4, 'task_description': '31', 'checked': False}, {'id': 6, 'task_description': '12', 'checked': False}, {'id': 8, 'task_description': '12', 'checked': False}, {'id': 9, 'task_description': '1231', 'checked': True}]
+INFO:root:Response ready: <Response 439 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:11] "GET /get_tasks?sectionId=2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:15] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:16] "POST /update_task HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:17] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:17] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:17] "[36mGET /static/css/style_main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:17] "[36mGET /static/js/main_script.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:17] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 1
+INFO:root:Got 4 tasks
+INFO:root:Tasks data: [{'id': 1, 'task_description': '123123', 'checked': True}, {'id': 2, 'task_description': '213123', 'checked': True}, {'id': 5, 'task_description': '31', 'checked': False}, {'id': 7, 'task_description': '12', 'checked': False}]
+INFO:root:Response ready: <Response 358 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:17] "GET /get_tasks?sectionId=1 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 2
+INFO:root:Got 5 tasks
+INFO:root:Tasks data: [{'id': 3, 'task_description': '12312', 'checked': False}, {'id': 4, 'task_description': '31', 'checked': False}, {'id': 6, 'task_description': '12', 'checked': False}, {'id': 8, 'task_description': '12', 'checked': False}, {'id': 9, 'task_description': '1231', 'checked': True}]
+INFO:root:Response ready: <Response 439 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 09:11:17] "GET /get_tasks?sectionId=2 HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 517-304-896
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-346-583
+INFO:werkzeug: * Detected change in '/app/src/db/models.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-346-583
+INFO:werkzeug: * Detected change in '/app/src/db/models.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-346-583
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-346-583
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 14:57:13] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 14:57:13] "[36mGET /static/css/style_login.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 14:57:13] "[36mGET /static/js/script.js?v=4 HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 14:57:14] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 15:10:28] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 15:10:28] "GET /static/css/style_main.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 15:10:28] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 15:10:28] "GET /static/js/main_script.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 15:10:28] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 1
+INFO:root:Got 4 tasks
+INFO:root:Tasks data: [{'id': 1, 'task_description': '123123', 'checked': True}, {'id': 2, 'task_description': '213123', 'checked': True}, {'id': 5, 'task_description': '31', 'checked': False}, {'id': 7, 'task_description': '12', 'checked': False}]
+INFO:root:Response ready: <Response 358 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 15:10:28] "GET /get_tasks?sectionId=1 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 2
+INFO:root:Got 5 tasks
+INFO:root:Tasks data: [{'id': 3, 'task_description': '12312', 'checked': False}, {'id': 4, 'task_description': '31', 'checked': False}, {'id': 6, 'task_description': '12', 'checked': False}, {'id': 8, 'task_description': '12', 'checked': False}, {'id': 9, 'task_description': '1231', 'checked': True}]
+INFO:root:Response ready: <Response 439 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [10/Feb/2024 15:10:28] "GET /get_tasks?sectionId=2 HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 844-009-704
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:11] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:11] "[36mGET /static/js/script.js?v=4 HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:11] "[36mGET /static/css/style_login.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:17] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:17] "[36mGET /static/css/style_main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:17] "[36mGET /static/js/main_script.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:17] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:17] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 1
+INFO:root:Got 4 tasks
+INFO:root:Tasks data: [{'id': 1, 'task_description': '123123', 'checked': True}, {'id': 2, 'task_description': '213123', 'checked': True}, {'id': 5, 'task_description': '31', 'checked': False}, {'id': 7, 'task_description': '12', 'checked': False}]
+INFO:root:Response ready: <Response 358 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:17] "GET /get_tasks?sectionId=1 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 2
+INFO:root:Got 5 tasks
+INFO:root:Tasks data: [{'id': 3, 'task_description': '12312', 'checked': False}, {'id': 4, 'task_description': '31', 'checked': False}, {'id': 6, 'task_description': '12', 'checked': False}, {'id': 8, 'task_description': '12', 'checked': False}, {'id': 9, 'task_description': '1231', 'checked': True}]
+INFO:root:Response ready: <Response 439 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 11:29:17] "GET /get_tasks?sectionId=2 HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 115-077-208
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 116-169-199
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:41] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:41] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:42] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:42] "[36mGET /static/css/style_login.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:42] "[36mGET /static/js/script.js?v=4 HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:47] "POST /login_form HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:47] "[36mGET /static/css/style_main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:47] "[36mGET /static/avatars/logo.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:47] "[36mGET /static/js/main_script.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:47] "GET /get_sections HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 1
+INFO:root:Got 4 tasks
+INFO:root:Tasks data: [{'id': 1, 'task_description': '123123', 'checked': True}, {'id': 2, 'task_description': '213123', 'checked': True}, {'id': 5, 'task_description': '31', 'checked': False}, {'id': 7, 'task_description': '12', 'checked': False}]
+INFO:root:Response ready: <Response 358 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:47] "GET /get_tasks?sectionId=1 HTTP/1.1" 200 -
+INFO:root:Getting tasks for section_id: 2
+INFO:root:Got 5 tasks
+INFO:root:Tasks data: [{'id': 3, 'task_description': '12312', 'checked': False}, {'id': 4, 'task_description': '31', 'checked': False}, {'id': 6, 'task_description': '12', 'checked': False}, {'id': 8, 'task_description': '12', 'checked': False}, {'id': 9, 'task_description': '1231', 'checked': True}]
+INFO:root:Response ready: <Response 439 bytes [200 OK]>
+INFO:werkzeug:127.0.0.1 - - [11/Feb/2024 17:02:47] "GET /get_tasks?sectionId=2 HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 128-259-319
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 671-488-959
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 471-452-733
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 101-761-554
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 701-045-204
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 324-654-080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 521-349-694
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 112-965-229
+INFO:werkzeug:127.0.0.1 - - [16/Feb/2024 15:57:46] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 211-098-220
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 103-487-801
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 432-645-644
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 289-944-516
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 273-320-371
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 143-535-225
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 105-758-218
+INFO:werkzeug:127.0.0.1 - - [20/Feb/2024 11:32:44] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Feb/2024 11:32:44] "GET /static/js/script.js?v=4 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Feb/2024 11:32:44] "GET /static/css/style_login.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Feb/2024 11:32:45] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [20/Feb/2024 11:32:49] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Feb/2024 11:32:49] "[36mGET /static/css/style_login.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [20/Feb/2024 11:32:49] "[36mGET /static/js/script.js?v=4 HTTP/1.1[0m" 304 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 114-967-289
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 973-470-676
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 128-244-623
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 774-104-975
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 234-544-391
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 133-354-727
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 807-591-908
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 917-636-570
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 212-446-107
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 252-032-756
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 142-099-256
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 590-707-579
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 167-604-039
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:25:02] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:28:30] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:28:30] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:28:31] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:28:31] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:28:31] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:38:18] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:48:19] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:48:20] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:08] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:33] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:38] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:38] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:38] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:39] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:39] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:39] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:39] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:39] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:40] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:40] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:40] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:40] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:40] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:41] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:41] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:41] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:41] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:41] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:41] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 13:56:41] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:25] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:25] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:25] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:25] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:26] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:26] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:26] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:26] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:00:26] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:13:07] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:15:33] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:15:54] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:16:02] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:16:14] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:36] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:39] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:40] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:41] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:52] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:53] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:54] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:54] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:17:55] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:18:07] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:20:53] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/Feb/2024 14:20:55] "[33mGET /random-book HTTP/1.1[0m" 404 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 857-157-564
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 775-252-839

@@ -293,6 +293,15 @@ class Chats(Base):
 
 #!----------------------------------------------------------------------------------------------------------------------------
 
+chat_users = Table(
+    "chat_users",
+    Base.metadata,
+    Column("user_id", Integer, ForeignKey("users.id")),
+    Column("chat_id", Integer, ForeignKey("chats.id")),
+)
+
+#!----------------------------------------------------------------------------------------------------------------------------
+
 class Messages(Base):
     __tablename__ = "messages"
     id = Column(Integer, primary_key=True)
@@ -319,15 +328,6 @@ class Messages(Base):
 
     def __repr__(self):
         return f"text_of_message: {self.text_of_message}, date_of_message: {self.date_of_message}, message_user: {self.message_user}, chat_id: {self.chat_id}"
-
-#!----------------------------------------------------------------------------------------------------------------------------
-
-chat_users = Table(
-    "chat_users",
-    Base.metadata,
-    Column("user_id", Integer, ForeignKey("users.id")),
-    Column("chat_id", Integer, ForeignKey("chats.id")),
-)
 
 #!----------------------------------------------------------------------------------------------------------------------------
 
